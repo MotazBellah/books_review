@@ -13,17 +13,17 @@ def main():
         """
         CREATE TABLE users (
             id SERIAL PRIMARY KEY,
-            username VARCHAR(255) NOT NULL,
+            username VARCHAR(255),
             email VARCHAR(255) UNIQUE,
-            password VARCHAR(255) NOT NULL
+            password VARCHAR(255)
         )
         """,
         """ CREATE TABLE books (
                 id SERIAL PRIMARY KEY,
-                title VARCHAR(255) NOT NULL,
-                author VARCHAR(255) NOT NULL,
-                year INTEGER NOT NULL,
-                isbn VARCHAR(255) NOT NULL
+                title VARCHAR(255),
+                author VARCHAR(255),
+                year VARCHAR,
+                isbn VARCHAR(255)
         )
         """,
         """ CREATE TABLE reviews (
