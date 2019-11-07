@@ -1,4 +1,4 @@
-from flask import Flask, session
+from flask import Flask, session, render_template
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -17,7 +17,8 @@ db = scoped_session(sessionmaker(bind=engine))
 
 @app.route("/")
 def index():
-    return "Project 2: TODO"
+    books = db.execute("SELECT * FROM books limit 10 offset 2").fetchall()
+    return render_template('index.html', books=books)
 
 
 if __name__ == '__main__':
