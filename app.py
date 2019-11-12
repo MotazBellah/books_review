@@ -21,6 +21,12 @@ def index():
     return render_template('index.html', books=books)
 
 
+@app.route("/rate/<int:book_id>")
+def rate(book_id):
+    return str(book_id)
+
+
+
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
     app.run(host='0.0.0.0')
