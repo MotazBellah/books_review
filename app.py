@@ -2,6 +2,10 @@ from flask import Flask, session, render_template
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
+import requests
+import bs4 as bs
+# from urllib.request import urlopen
+from urllib import urlopen
 
 app = Flask(__name__)
 
@@ -24,7 +28,14 @@ def index():
 
 @app.route("/<book_isbn>")
 def book(book_isbn):
-    return str(book_isbn)
+    source = urlopen('https://www.goodreads.com/book/isbn/{}?key=uXFuECWGEsTMTQS5ETg'.format(book_isbn)).read()
+    soup = bs.BeautifulSoup(source, 'lxml')
+    description = soup.find('book').find('description')
+    img_url = "http://covers.openlibrary.org/b/isbn/{}-M.jpg".format(book_isbn)
+    print(description.get_text())
+    # if cube:
+    return render_template('book.html', description=description, img_url=img_url)
+
 
 
 @app.route("/rate/<int:book_id>")
@@ -35,4 +46,4 @@ def rate(book_id):
 
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
-    app.run(host='0.0.0.0')
+    app.run(debug=True, host='0.0.0.0')
