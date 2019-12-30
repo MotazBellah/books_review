@@ -31,10 +31,10 @@ def book(book_isbn):
     source = urlopen('https://www.goodreads.com/book/isbn/{}?key=uXFuECWGEsTMTQS5ETg'.format(book_isbn)).read()
     soup = bs.BeautifulSoup(source, 'lxml')
     description = soup.find('book').find('description')
-    img_url = "http://covers.openlibrary.org/b/isbn/{}-M.jpg".format(book_isbn)
-    print(description.get_text())
+    img_url = "http://covers.openlibrary.org/b/isbn/{}-L.jpg".format(book_isbn)
+    print(description.text)
     # if cube:
-    return render_template('book.html', description=description, img_url=img_url)
+    return render_template('book.html', description=description.text, img_url=img_url)
 
 
 
