@@ -18,7 +18,13 @@ db = scoped_session(sessionmaker(bind=engine))
 @app.route("/")
 def index():
     books = db.execute("SELECT * FROM books limit 10 offset 2").fetchall()
+    print(books)
     return render_template('index.html', books=books)
+
+
+@app.route("/<book_isbn>")
+def book(book_isbn):
+    return str(book_isbn)
 
 
 @app.route("/rate/<int:book_id>")
