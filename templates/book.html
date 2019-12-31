@@ -1,17 +1,33 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-    <head>
-        <meta charset="utf-8">
-        <title></title>
-    </head>
-    <body>
+{% extends "layout.html" %}
+{% block title %}Book-info{% endblock %}
 
-        <img src="{{ img_url }}" alt="">
-        <p>{{ description }}</p>
+{% block head %}
+     {{ super() }}
+{% endblock %}
+
+{% block content %}
+
+    {{ super() }}
+
+
+        <div class="book-info clearfix">
+            <div class="photo">
+                <img src="{{ img_url }}" alt="">
+            </div>
+        {% if description %}
+            <p class="info">{{ description }}</p>
+        {% else %}
+            <h4 class="info">There are no books available</h4>
+        </div>
 
 
 
-    </body>
-</html>
 
-<!-- http://covers.openlibrary.org/b/isbn/0380795272-M.jpg -->
+
+
+    {% endif %}
+
+    {% block script %}
+        {{ super() }}
+    {% endblock %}
+{% endblock %}

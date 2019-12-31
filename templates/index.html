@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% block title %}enrollment{% endblock %}
+{% block title %}Books{% endblock %}
 
 {% block head %}
      {{ super() }}
@@ -26,13 +26,8 @@
 
     {% else %}
 
-        <div class="card mt-3">
-            <div class="card-body clearfix">
-                <div class="card-content">
-                    <h4>There are no books available</h4>
-                </div>
-            </div>
-        </div>
+
+            <h4>There are no books available</h4>
 
     {% endif %}
 
