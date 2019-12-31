@@ -12,15 +12,18 @@
     {% if books %}
         {% for book in books %}
 
-
-                <div class="book-body m-3">
+            <div class="card mt-3">
+                <div class="card-body clearfix">
                     <a href="{{url_for('book', book_isbn = book.isbn)}}">
                         <img src="http://covers.openlibrary.org/b/isbn/{{ book.isbn }}-M.jpg" alt="">
-                        <h4>{{ book.title }}</h4>
-                        <p>{{ book.author }}</p></a>
-                        <a  href="{{url_for('rate', book_id = book.id)}}">Rate</a>
+                        <div class="card-content">
+                            <h4>{{ book.title }}</h4>
+                            <span>{{ book.author }}</span>
+                            <a class="btn btn-primary button m-2" href="{{url_for('rate', book_id = book.id)}}">Rate</a>
+                        </div>
+                    </a>
                 </div>
-
+            </div>
 
         {% endfor %}
 
