@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    {% block head %}
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>{% block title %}{% endblock %}</title>
+
+    <style media="screen">
+        /* style the enroll button */
+        .button {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+        }
+        /* style the flash messages */
+        .error {
+          background-color: red;
+          color: black
+        }
+        .success {
+          background-color: green;
+          color: black
+        }
+        /*
+        Add media query to style the header (nav) when screen is medium/large
+        resize the image and card content
+        */
+        @media (min-width: 669px) {
+        	.main-header {
+        		position: fixed;
+        		background: #fff;
+        		box-shadow: 0 1px 4px rgba(0,0,0,.7);
+        		width: 100%;
+        		top: 0;
+        		z-index: 1000;
+        	}
+            .name {
+                float: left;
+            }
+            .main-nav {
+                float: right;
+            }
+            img {
+                width: 29%;
+                height: 27%;
+                float: left;
+            }
+            .card-content {
+                width: 70%;
+                padding: 1em;
+                float: right;
+            }
+            #content {
+                padding-top: 100px;
+            }
+        }
+        /*
+        Add media query to style the header (nav) when screen is small
+        resize the image and card content
+        */
+        @media (max-width: 710px) {
+            img {
+                width: 90%;
+                height: 86%;
+            }
+            .card-content {
+                width: 90%;
+                padding: 1em;
+            }
+        }
+        .main-header {
+            padding-top: .5em;
+            padding-bottom: .5em;
+            }
+        /* clearfix to avoid the conflict due to float */
+        .clearfix::after {
+            content: " ";
+            display: table;
+            clear: both;
+        }
+    /* display the text in center and elements the nav behavior */
+    header {
+        text-align: center;
+    }
+    </style>
+
+    {% endblock %}
+  </head>
+  <body>
+      <header class="main-header">
+          <div class="container-fluid clearfix">
+              <h1 class="name">Book Review</h1>
+              <h2 class="main-nav">Register</h2>
+          </div>
+      </header>
+    <div id="content" class="container mb-4">
+
+        {% block content %}
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul class="list-unstyled">
+                        {% for category, message in messages %}
+                        <li class="{{ category }} p-2 my-2">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+        {% endblock %}
+    </div>
+
+    {% block script %}
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    {% endblock %}
+  </body>
+</html>
