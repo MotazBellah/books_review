@@ -28,7 +28,7 @@ def index():
 
 @app.route("/<book_isbn>")
 def book(book_isbn):
-    book_info = db.execute('''SELECT title, author FROM books WHERE isbn = :isbn;''',
+    book_info = db.execute('''SELECT title, author, id FROM books WHERE isbn = :isbn;''',
                               {"isbn": book_isbn}).fetchall()
     print(book_info[0][0])
     source = urlopen('https://www.goodreads.com/book/isbn/{}?key=uXFuECWGEsTMTQS5ETg'.format(book_isbn)).read()
@@ -37,7 +37,7 @@ def book(book_isbn):
     img_url = "http://covers.openlibrary.org/b/isbn/{}-L.jpg".format(book_isbn)
     print(description.text)
     # if cube:
-    return render_template('book.html', description=description.text, img_url=img_url, book_title=book_info[0][0], book_author=book_info[0][1])
+    return render_template('book.html', description=description.text, img_url=img_url, book_title=book_info[0][0], book_author=book_info[0][1], book_id=book_info[0][2])
 
 
 

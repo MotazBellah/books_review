@@ -19,6 +19,14 @@
             <h2>{{ book_title }}</h2>
             <p>{{ book_author }}</p>
             <p>{{ description }}</p>
+            <a  href="{{url_for('rate', book_id = book_id)}}">Rate</a>
+            <select name="Rate">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
         </div>
 
         {% else %}
