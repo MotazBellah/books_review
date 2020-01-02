@@ -27,6 +27,20 @@
               <option value="4">4</option>
               <option value="5">5</option>
             </select>
+
+            <div id="rating">
+                <a href="#"><span title="n1" class="fa fa-star"></span></a>
+                <a href="#"><span title="n2" class="fa fa-star"></span></a>
+                <a href="#"><span title="n3" class="fa fa-star"></span></a>
+                <a href="#"><span title="n4" class="fa fa-star"></span></a>
+                <a href="#"><span title="n5" class="fa fa-star checked"></span></a>
+            </div>
+
+
+
+
+
+
         </div>
 
         {% else %}
@@ -42,5 +56,14 @@
 
     {% block script %}
         {{ super() }}
+        <script type="text/javascript">
+            const div = document.getElementById('rating');
+            div.addEventListener('click', (e) => {
+                alert(e.target.title);
+                // Check which star is clicked according to its title
+                // set checked class to all pervios seblings
+            });
+            // alert('h');
+        </script>
     {% endblock %}
 {% endblock %}
