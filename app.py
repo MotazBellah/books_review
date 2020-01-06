@@ -30,7 +30,7 @@ def index():
 def book(book_isbn):
     book_info = db.execute('''SELECT title, author, id FROM books WHERE isbn = :isbn;''',
                               {"isbn": book_isbn}).fetchall()
-    print(book_info[0][0])
+    # print(book_info[0][0])
     source = urlopen('https://www.goodreads.com/book/isbn/{}?key=uXFuECWGEsTMTQS5ETg'.format(book_isbn)).read()
     soup = bs.BeautifulSoup(source, 'lxml')
     description = soup.find('book').find('description')

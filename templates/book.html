@@ -33,13 +33,8 @@
                 <a href="#"><span title="n2" class="fa fa-star"></span></a>
                 <a href="#"><span title="n3" class="fa fa-star"></span></a>
                 <a href="#"><span title="n4" class="fa fa-star"></span></a>
-                <a href="#"><span title="n5" class="fa fa-star checked"></span></a>
+                <a href="#"><span title="n5" class="fa fa-star"></span></a>
             </div>
-
-
-
-
-
 
         </div>
 
@@ -59,6 +54,19 @@
         <script type="text/javascript">
             const div = document.getElementById('rating');
             div.addEventListener('click', (e) => {
+                // console.log(e.target.type);
+                titles = ['n1', 'n2', 'n3', 'n4', 'n5']
+                if (titles.indexOf(e.target.title) != -1) {
+                    var c = div.children;
+                    console.log(c);
+                    for (var i = 0; i < c.length; i++) {
+                        if(c[i].children[0].title <= e.target.title) {
+                            console.log(c[i].children[0].title);
+                            c[i].children[0].className += ' checked';
+                        }
+
+                    }
+                }
                 alert(e.target.title);
                 // Check which star is clicked according to its title
                 // set checked class to all pervios seblings
