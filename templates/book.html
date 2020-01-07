@@ -29,20 +29,13 @@
             </select>
 
             <div class="rating">
-                <a href="#"><span title="n1" class="fa fa-star"></span></a>
-                <a href="#"><span title="n2" class="fa fa-star"></span></a>
-                <a href="#"><span title="n3" class="fa fa-star"></span></a>
-                <a href="#"><span title="n4" class="fa fa-star"></span></a>
-                <a href="#"><span title="n5" class="fa fa-star"></span></a>
+                <a href="{{url_for('rate', book_id = book_id, value=1)}}"><span title="n1" class="fa fa-star"></span></a>
+                <a href="{{url_for('rate', book_id = book_id, value=2)}}"><span title="n2" class="fa fa-star"></span></a>
+                <a href="{{url_for('rate', book_id = book_id, value=3)}}"><span title="n3" class="fa fa-star"></span></a>
+                <a href="{{url_for('rate', book_id = book_id, value=4)}}"><span title="n4" class="fa fa-star"></span></a>
+                <a href="{{url_for('rate', book_id = book_id, value=5)}}"><span title="n5" class="fa fa-star"></span></a>
             </div>
 
-            <div class="rating">
-                <a href="#"><span title="n1" class="fa fa-star"></span></a>
-                <a href="#"><span title="n2" class="fa fa-star"></span></a>
-                <a href="#"><span title="n3" class="fa fa-star"></span></a>
-                <a href="#"><span title="n4" class="fa fa-star"></span></a>
-                <a href="#"><span title="n5" class="fa fa-star"></span></a>
-            </div>
 
         </div>
 
@@ -61,26 +54,26 @@
         {{ super() }}
         <script type="text/javascript">
             document.addEventListener('DOMContentLoaded', () => {
-                
-            const div = document.getElementsByClassName('rating');
 
-            for (var i = 0; i < div.length; i++) {
-                div[i].addEventListener('click', function (e) {
-                    titles = ['n1', 'n2', 'n3', 'n4', 'n5']
-                    console.log(this.children);
-                    if (titles.indexOf(e.target.title) != -1) {
-                        var c = this.children;
-                        console.log(c);
-                        for (var i = 0; i < c.length; i++) {
-                            if(c[i].children[0].title <= e.target.title) {
-                                console.log(c[i].children[0].title);
-                                c[i].children[0].className += ' checked';
+                const div = document.getElementsByClassName('rating');
+
+                for (var i = 0; i < div.length; i++) {
+                    div[i].addEventListener('click', function (e) {
+                        titles = ['n1', 'n2', 'n3', 'n4', 'n5']
+                        console.log(this.children);
+                        if (titles.indexOf(e.target.title) != -1) {
+                            var c = this.children;
+                            console.log(c);
+                            for (var i = 0; i < c.length; i++) {
+                                if(c[i].children[0].title <= e.target.title) {
+                                    console.log(c[i].children[0].title);
+                                    c[i].children[0].className += ' checked';
+                                }
+
                             }
-
                         }
-                    }
-                })
-            }
+                    })
+                }
             })
             // div.addEventListener('click', (e) => {
             //     // console.log(e.target.type);
