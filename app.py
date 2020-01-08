@@ -47,6 +47,11 @@ def rate(book_id):
     return str(book_id) + ' ' + str(value)
 
 
+@app.route("/search", methods=['GET', 'POST'])
+def search():
+    pass
+
+
 
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
