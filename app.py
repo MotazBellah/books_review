@@ -21,7 +21,7 @@ db = scoped_session(sessionmaker(bind=engine))
 
 @app.route("/")
 def index():
-    books = db.execute("SELECT * FROM books limit 30 offset 2").fetchall()
+    books = db.execute("SELECT * FROM books limit 20 offset 2").fetchall()
     print(books)
     return render_template('index.html', books=books)
 
@@ -49,7 +49,13 @@ def rate(book_id):
 
 @app.route("/search", methods=['GET', 'POST'])
 def search():
-    pass
+    if request.method == 'POST':
+        name = request.form['name']
+        books = db.execute('''SELECT * FROM books WHERE title=:title
+                           OR isbn=:isbn OR author=:author;''',
+                           {"title": name, "author": name, "isbn": name}).fetchall()
+        return render_template('search.html', books=books)
+
 
 
 
