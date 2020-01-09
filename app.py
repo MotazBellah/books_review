@@ -8,11 +8,11 @@ try:
     from urllib import urlopen
 except ImportError:
     from urllib.request import urlopen
-    
+
 from wtform_fields import *
 
 app = Flask(__name__)
-
+app.secret_key = 'super_secret_key'
 app.config['WTF_CSRF_SECRET_KEY'] = "b'f\xfa\x8b{X\x8b\x9eM\x83l\x19\xad\x84\x08\xaa"
 
 
@@ -76,5 +76,4 @@ def search():
 
 
 if __name__ == '__main__':
-    app.secret_key = 'super_secret_key'
     app.run(debug=True, host='0.0.0.0')
