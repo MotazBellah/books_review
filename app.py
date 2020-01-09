@@ -46,7 +46,7 @@ def register():
         db.commit()
         return redirect(url_for('login'))
 
-    return render_template('register.html', form=reg_form)
+    return render_template('register.html', form=reg_form, login_session=login_session)
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
@@ -61,7 +61,7 @@ def login():
         else:
             return redirect(url_for('register'))
 
-    return render_template('login.html', form=login_form)
+    return render_template('login.html', form=login_form, login_session=login_session)
 
 
 @app.route('/logout')
@@ -89,7 +89,7 @@ def book(book_isbn):
     img_url = "http://covers.openlibrary.org/b/isbn/{}-L.jpg".format(book_isbn)
     print(description.text)
     # if cube:
-    return render_template('book.html', description=description.text, img_url=img_url, book_title=book_info[0][0], book_author=book_info[0][1], book_id=book_info[0][2])
+    return render_template('book.html', login_session=login_session, description=description.text, img_url=img_url, book_title=book_info[0][0], book_author=book_info[0][1], book_id=book_info[0][2])
 
 
 
