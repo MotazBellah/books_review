@@ -10,7 +10,7 @@ try:
 except ImportError:
     from urllib.request import urlopen
 
-from wtform_fields import *
+from wtform_fields import RegistartionForm, LoginForm
 
 app = Flask(__name__)
 app.secret_key = 'super_secret_key'
