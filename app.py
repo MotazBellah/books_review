@@ -57,7 +57,7 @@ def login():
         if user_object:
             # login_user(user_object)
             login_session['user_id'] = user_object.id
-            return redirect(url_for('/'))
+            return redirect(url_for('index'))
         else:
             return redirect(url_for('register'))
 
