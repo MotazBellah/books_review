@@ -41,7 +41,10 @@ def register():
         email = reg_form.email.data
         password = reg_form.password.data
         hashed_pswd = pbkdf2_sha256.hash(password)
-        return redirect(url_for('/'))
+        db.execute("INSERT INTO users (username,email,hashed_pswd) VALUES (:username, :email, :hashed_pswd)",
+                   {"username": username, "email": email, "hashed_pswd": hashed_pswd})
+        db.commit()
+        return redirect(url_for('login'))
 
     return render_template('register.html', form=reg_form)
 

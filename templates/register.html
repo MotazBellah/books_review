@@ -28,15 +28,6 @@
 
 {% block content %}
 
-<nav class="navbar navbar-expand-xlg navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">currency</a>
-
-    <span class="navbar-text float-right">
-        <a class="btn btn-outline-success" href="{{ url_for('index') }}">Login</a>
-    </span>
-
-</nav>
-
     <div id="register" class="mx-auto">
         <h1>Get Started</h1>
         <form action="{{ url_for('register') }}" method="POST">
