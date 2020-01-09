@@ -1,0 +1,62 @@
+{% from 'form_helper.html' import displayField %}
+
+{% extends "layout.html" %}
+{% block title %}login{% endblock %}
+
+{% block head %}
+     {{ super() }}
+    <style media="screen">
+        ul {
+            list-style-type:none;
+            text-align: left;
+            padding-inline-start: 0px
+        }
+        ul li {
+            color: red;
+        }
+        #log{
+            /* margin: auto; */
+            width: 50%;
+        }
+        .error {
+          background-color: red;
+          color: black
+        }
+        .success {
+          background-color: green;
+          color: black
+        }
+        @media only screen and (max-width: 600px) {
+          #log {
+            width: 100%;
+          }
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+
+
+<div id="log" class="mx-auto">
+    {{ super() }}
+    <h1>Login now</h1>
+    <p>Enter your email/password</p>
+    <form action="{{ url_for('login') }}" method="POST">
+
+        {{ displayField(form.email, 'email', autocomplete='off', autofocuse=true) }}
+        {{ displayField(form.password, 'Password') }}
+
+        <div class="form-group">
+            <input type="submit" value="Login" class="btn btn-outline-success">
+        </div>
+
+        {{ form.csrf_token }}
+
+    </form>
+</div>
+
+
+{% block script %}
+    {{ super() }}
+{% endblock %}
+{% endblock %}

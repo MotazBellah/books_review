@@ -8,3 +8,8 @@ class RegistartionForm(FlaskForm):
     email = StringField('email', validators=[InputRequired(message='email Required'), Email(message="This field requires a valid email address")])
     password = PasswordField('password', validators=[InputRequired(message="Password Required")])
     confirm_pswd = PasswordField("confirm_pswd", validators=[InputRequired(message="Confirm Password Required"), EqualTo('password', message='Password must match')])
+
+
+class LoginForm(FlaskForm):
+    email = StringField('email', validators=[InputRequired(message='email Required'), Email(message="This field requires a valid email address")])
+    password = PasswordField('password', validators=[InputRequired(message="Password Required")])

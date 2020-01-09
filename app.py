@@ -4,6 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 import bs4 as bs
 # from urllib.request import urlopen
+from flask_login import LoginManager, login_user, current_user, login_required, logout_user
 try:
     from urllib import urlopen
 except ImportError:
@@ -21,6 +22,16 @@ DATABASE_URL = 'postgres://bcuchlesrjetnx:3a811885019d2cedb2a4c32bf93ee63d4ce51e
 engine = create_engine(DATABASE_URL)
 db = scoped_session(sessionmaker(bind=engine))
 
+# configure flask_login
+login = LoginManager()
+login.init_app(app)
+# app.config['LOGIN_DISABLED'] = False
+
+@login.user_loader
+def load_user(id):
+    user_object = db.execute("SELECT * FROM users WHERE id = :id", {"id": int(id)}).fetchone()
+    return user_object
+
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -33,6 +44,28 @@ def register():
         return redirect(url_for('/'))
 
     return render_template('register.html', form=reg_form)
+
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    login_form = LoginForm()
+    if login_form.validate_on_submit():
+        email = login_form.email.data
+        user_object = db.execute("SELECT * FROM users WHERE email = :email", {"email": email}).fetchone()
+        if user_object:
+            login_user(user_object)
+            login_session['user_id'] = user_object.id
+            return redirect(url_for('/'))
+        else:
+            return redirect(url_for('register'))
+
+    return render_template('login.html', form=reg_form)
+
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('register'))
 
 
 @app.route("/")
