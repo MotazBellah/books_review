@@ -1,5 +1,5 @@
 from flask import Flask, session, render_template, request, redirect
-from flask_session import Session
+from flask import session as login_session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 import requests
@@ -10,11 +10,8 @@ from wtform_fields import *
 
 app = Flask(__name__)
 
-# Configure session to use filesystem
-app.config["SESSION_PERMANENT"] = False
-app.config["SESSION_TYPE"] = "filesystem"
 app.config['WTF_CSRF_SECRET_KEY'] = "b'f\xfa\x8b{X\x8b\x9eM\x83l\x19\xad\x84\x08\xaa"
-Session(app)
+
 
 # Set up database
 DATABASE_URL = 'postgres://bcuchlesrjetnx:3a811885019d2cedb2a4c32bf93ee63d4ce51e6a844a1818a3d5f585c8c791c2@ec2-54-243-239-199.compute-1.amazonaws.com:5432/d5p4vvbq5jskke'
