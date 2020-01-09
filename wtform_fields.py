@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from passlib.hash import pbkdf2_sha256
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, FloatField, IntegerField
 from wtforms.validators import InputRequired, Email, Length, EqualTo, ValidationError, Optional
-from app import db
+from import import db
 
 
 def email_exists(form, field):
