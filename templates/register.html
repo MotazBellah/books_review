@@ -1,0 +1,63 @@
+{% from 'form_helper.html' import displayField %}
+
+{% extends "layout.html" %}
+{% block title %}Register{% endblock %}
+
+{% block head %}
+     {{ super() }}
+    <style media="screen">
+        ul {
+            list-style-type:none;
+            text-align: left;
+            padding-inline-start: 0px
+        }
+        ul li {
+            color: red;
+        }
+        #register{
+            /* margin: auto; */
+            width: 50%;
+        }
+        @media only screen and (max-width: 600px) {
+          #register {
+            width: 100%;
+          }
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+
+<nav class="navbar navbar-expand-xlg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">currency</a>
+
+    <span class="navbar-text float-right">
+        <a class="btn btn-outline-success" href="{{ url_for('index') }}">Login</a>
+    </span>
+
+</nav>
+
+    <div id="register" class="mx-auto">
+        <h1>Get Started</h1>
+        <form action="{{ url_for('register') }}" method="POST">
+
+            {{ displayField(form.username, 'Username', autofocuse=true) }}
+            {{ displayField(form.email, 'email', autofocuse=true) }}
+            {{ displayField(form.password, 'Password') }}
+            {{ displayField(form.confirm_pswd, 'Confirme Password') }}
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-outline-success">
+            </div>
+
+
+            {{ form.csrf_token }}
+
+        </form>
+
+    </div>
+
+    {% block script %}
+        {{ super() }}
+    {% endblock %}
+{% endblock %}

@@ -1,4 +1,4 @@
-from flask import Flask, session, render_template, request
+from flask import Flask, session, render_template, request, redirect
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -6,6 +6,7 @@ import requests
 import bs4 as bs
 # from urllib.request import urlopen
 from urllib import urlopen
+from wtform_fields import *
 
 app = Flask(__name__)
 
@@ -19,6 +20,20 @@ Session(app)
 DATABASE_URL = 'postgres://bcuchlesrjetnx:3a811885019d2cedb2a4c32bf93ee63d4ce51e6a844a1818a3d5f585c8c791c2@ec2-54-243-239-199.compute-1.amazonaws.com:5432/d5p4vvbq5jskke'
 engine = create_engine(DATABASE_URL)
 db = scoped_session(sessionmaker(bind=engine))
+
+
+@app.route("/register", methods=['GET', 'POST'])
+def register():
+    reg_form = RegistartionForm()
+    if reg_form.validate_on_submit():
+        username = reg_form.username.data
+        email = reg_form.email.data
+        password = reg_form.password.data
+        hashed_pswd = pbkdf2_sha256.hash(password)
+        return redirect(url_for('/'))
+
+    return render_template('register.html', form=reg_form)
+
 
 @app.route("/")
 def index():
