@@ -4,7 +4,11 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 import bs4 as bs
 # from urllib.request import urlopen
-from urllib import urlopen
+try:
+    from urllib import urlopen
+except ImportError:
+    from urllib.request import urlopen
+    
 from wtform_fields import *
 
 app = Flask(__name__)
