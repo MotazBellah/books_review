@@ -55,7 +55,7 @@ def login():
         email = login_form.email.data
         user_object = db.execute("SELECT * FROM users WHERE email = :email", {"email": email}).fetchone()
         if user_object:
-            login_user(user_object)
+            # login_user(user_object)
             login_session['user_id'] = user_object.id
             return redirect(url_for('/'))
         else:
