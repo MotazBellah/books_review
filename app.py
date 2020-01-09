@@ -75,7 +75,7 @@ def logout():
 def index():
     books = db.execute("SELECT * FROM books limit 20 offset 2").fetchall()
     print(books)
-    return render_template('index.html', books=books)
+    return render_template('index.html', books=books, login_session=login_session)
 
 
 @app.route("/<book_isbn>")
