@@ -74,8 +74,10 @@ def logout():
 @app.route("/")
 def index():
     books = db.execute("SELECT * FROM books limit 20 offset 2").fetchall()
+    reviews = db.execute("SELECT * FROM reviews WHERE user_id=:user_id;",
+                        {"user_id": login_session['user_id']}).fetchall()
     print(books)
-    return render_template('index.html', books=books, login_session=login_session)
+    return render_template('index.html', books=books, login_session=login_session, reviews=reviews)
 
 
 @app.route("/<book_isbn>")
