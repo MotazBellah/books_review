@@ -93,10 +93,10 @@ def book(book_isbn):
 
 
 
-@app.route("/rate/<int:book_id>")
-def rate(book_id):
+@app.route("/rate/<int:user_id>/<int:book_id>")
+def rate(user_id, book_id):
     value = request.args['value']
-    return str(book_id) + ' ' + str(value)
+    return str(book_id) + ' ' + str(value) + ' ' + str(user_id)
 
 
 @app.route("/search", methods=['GET', 'POST'])
