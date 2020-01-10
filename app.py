@@ -96,6 +96,9 @@ def book(book_isbn):
 @app.route("/rate/<int:user_id>/<int:book_id>")
 def rate(user_id, book_id):
     value = request.args['value']
+    db.execute("INSERT INTO reviews (review_count) VALUES (:value,) WHERE book_id= :book_id and user_id = :user_id;",
+              {"value": int(value), "user_id":user_id, "book_id":book_id})
+    db.commit()
     return str(book_id) + ' ' + str(value) + ' ' + str(user_id)
 
 
