@@ -120,7 +120,7 @@ def comment(book_id, user_id):
                               {"book_id": book_id, "user_id": user_id}).fetchone()
         if user_rate:
             db.execute("UPDATE reviews SET review_write = :review_write WHERE book_id= :book_id and user_id = :user_id;",
-                    {"comment": review_write, "user_id":user_id, "book_id":book_id})
+                    {"review_write": comment, "user_id":user_id, "book_id":book_id})
         else:
             db.execute('''INSERT INTO reviews (review_write, book_id, user_id) VALUES (:review_write, :book_id, :user_id);''',
                   {"review_write": comment, "book_id": book_id, "user_id": login_session['user_id']})
