@@ -106,7 +106,7 @@ def rate(user_id, book_id):
 
 
 @app.route("/comment/<int:user_id>/<int:book_id>", methods=['GET', 'POST'])
-def comment(book_id, user_id>):
+def comment(book_id, user_id):
     if request.method == 'POST':
         comment = request.form['name']
         db.execute('''INSERT INTO reviews (review_write, book_id, user_id) VALUES (:review_write, :book_id, :user_id);''',
