@@ -23,7 +23,6 @@
         {% else %}
             <h4>There is no description available</h4>
         {% endif %}
-        </div>
 
         <div class="comments">
             {% if comments %}
@@ -33,14 +32,15 @@
                     </ul>
                 {% endfor %}
             {% endif %}
-        </div>
 
-        <div class="write_comment">
             <form action="{{url_for('comment', book_id=book_id, user_id=login_session['user_id'])}}" method="post">
                 <input type="text" name="name" placeholder="write a comment">
                 <input type="submit" class="btn btn-primary" value="post">
             </form>
         </div>
+        
+        </div>
+
     </div>
 
 
