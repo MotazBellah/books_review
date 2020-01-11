@@ -99,8 +99,15 @@ def rate(user_id, book_id):
     value = request.args['value']
     # db.execute("INSERT INTO reviews (review_count) VALUES (:value) WHERE book_id= :book_id and user_id = :user_id;",
     #           {"value": int(value), "user_id":user_id, "book_id":book_id})
-    db.execute("UPDATE reviews SET review_count = :value WHERE book_id= :book_id and user_id = :user_id;",
-              {"value": int(value), "user_id":user_id, "book_id":book_id})
+    user_rate = db.execute('''SELECT * FROM reviews WHERE book_id = :book_id and user_id = :user_id;''',
+                          {"book_id": book_id, "user_id": user_id}).fetchone()
+    if user_rate:
+        db.execute("UPDATE reviews SET review_count = :value WHERE book_id= :book_id and user_id = :user_id;",
+                  {"value": int(value), "user_id":user_id, "book_id":book_id})
+    else:
+        db.execute('''INSERT INTO reviews (review_count, book_id, user_id) VALUES (:review_count, :book_id, :user_id);''',
+                  {"review_count": value, "book_id": book_id, "user_id": login_session['user_id']})
+
     db.commit()
     return str(book_id) + ' ' + str(value) + ' ' + str(user_id)
 
@@ -109,8 +116,14 @@ def rate(user_id, book_id):
 def comment(book_id, user_id):
     if request.method == 'POST':
         comment = request.form['name']
-        db.execute('''INSERT INTO reviews (review_write, book_id, user_id) VALUES (:review_write, :book_id, :user_id);''',
-              {"review_write": comment, "book_id": book_id, "user_id": login_session['user_id']})
+        user_rate = db.execute('''SELECT * FROM reviews WHERE book_id = :book_id and user_id = :user_id;''',
+                              {"book_id": book_id, "user_id": user_id}).fetchone()
+        if user_rate:
+            db.execute("UPDATE reviews SET review_write = :review_write WHERE book_id= :book_id and user_id = :user_id;",
+                    {"comment": review_write, "user_id":user_id, "book_id":book_id})
+        else:
+            db.execute('''INSERT INTO reviews (review_write, book_id, user_id) VALUES (:review_write, :book_id, :user_id);''',
+                  {"review_write": comment, "book_id": book_id, "user_id": login_session['user_id']})
 
         db.commit()
         return redirect(url_for('index'))
