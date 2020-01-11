@@ -20,13 +20,15 @@
             <p>{{ book_author }}</p>
             <p>{{ description }}</p>
 
-            <div class="rating">
-                <a href="{{url_for('rate', book_id = book_id, value=1)}}"><span title="n1" class="fa fa-star"></span></a>
-                <a href="{{url_for('rate', book_id = book_id, value=2)}}"><span title="n2" class="fa fa-star"></span></a>
-                <a href="{{url_for('rate', book_id = book_id, value=3)}}"><span title="n3" class="fa fa-star"></span></a>
-                <a href="{{url_for('rate', book_id = book_id, value=4)}}"><span title="n4" class="fa fa-star"></span></a>
-                <a href="{{url_for('rate', book_id = book_id, value=5)}}"><span title="n5" class="fa fa-star"></span></a>
-            </div>
+            {% if login_session['user_id'] %}
+                <div class="rating">
+                    <a href="{{url_for('rate', user_id=login_session['user_id'], book_id = book.id, value=1)}}"><span title="n1" class="fa fa-star"></span></a>
+                    <a href="{{url_for('rate', user_id=login_session['user_id'], book_id = book.id, value=2)}}"><span title="n2" class="fa fa-star"></span></a>
+                    <a href="{{url_for('rate', user_id=login_session['user_id'], book_id = book.id, value=3)}}"><span title="n3" class="fa fa-star"></span></a>
+                    <a href="{{url_for('rate', user_id=login_session['user_id'], book_id = book.id, value=4)}}"><span title="n4" class="fa fa-star"></span></a>
+                    <a href="{{url_for('rate', user_id=login_session['user_id'], book_id = book.id, value=5)}}"><span title="n5" class="fa fa-star"></span></a>
+                </div>
+            {% endif %}
 
 
         </div>
