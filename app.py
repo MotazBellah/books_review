@@ -80,15 +80,17 @@ def index():
 @app.route("/<book_isbn>")
 def book(book_isbn):
     book_info = db.execute('''SELECT title, author, id FROM books WHERE isbn = :isbn;''',
-                              {"isbn": book_isbn}).fetchall()
+                              {"isbn": book_isbn}).fetchone()
     # print(book_info[0][0])
+    comments = db.execute('''SELECT review_write FROM reviews WHERE book_id = :book_id;''',
+                          {"book_id": book_info.id}).fetchall()
     source = urlopen('https://www.goodreads.com/book/isbn/{}?key=uXFuECWGEsTMTQS5ETg'.format(book_isbn)).read()
     soup = bs.BeautifulSoup(source, 'lxml')
     description = soup.find('book').find('description')
     img_url = "http://covers.openlibrary.org/b/isbn/{}-L.jpg".format(book_isbn)
     print(description.text)
     # if cube:
-    return render_template('book.html', login_session=login_session, description=description.text, img_url=img_url, book_title=book_info[0][0], book_author=book_info[0][1], book_id=book_info[0][2])
+    return render_template('book.html', login_session=login_session, comments=comments, description=description.text, img_url=img_url, book_title=book_info.title, book_author=book_info.author, book_id=book_info.id)
 
 
 
@@ -101,6 +103,17 @@ def rate(user_id, book_id):
               {"value": int(value), "user_id":user_id, "book_id":book_id})
     db.commit()
     return str(book_id) + ' ' + str(value) + ' ' + str(user_id)
+
+
+@app.route("/comment/<int:user_id>/<int:book_id>", methods=['GET', 'POST'])
+def comment(book_id, user_id>):
+    if request.method == 'POST':
+        comment = request.form['name']
+        db.execute('''INSERT INTO reviews (review_write, book_id, user_id) VALUES (:review_write, :book_id, :user_id);''',
+              {"review_write": comment, "book_id": book_id, "user_id": login_session['user_id']})
+
+        db.commit()
+        return redirect(url_for('index'))
 
 
 @app.route("/search", methods=['GET', 'POST'])

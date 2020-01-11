@@ -10,28 +10,39 @@
     {{ super() }}
 
 
-        <div class="book-info clearfix">
-            <div class="photo">
-                <img src="{{ img_url }}" alt="">
-            </div>
-        {% if description %}
+    <div class="book-info clearfix">
+        <div class="photo">
+            <img src="{{ img_url }}" alt="">
+        </div>
+
         <div class="info">
+        {% if description %}
             <h2>{{ book_title }}</h2>
             <p>{{ book_author }}</p>
             <p>{{ description }}</p>
-
-        </div>
-
         {% else %}
-            <h4 class="info">There is no description available</h4>
+            <h4>There is no description available</h4>
+        {% endif %}
         </div>
 
+        <div class="comments">
+            {% if comments %}
+                {% for comment in comments %}
+                    <ul>
+                        <li>{{ comment }}</li>
+                    </ul>
+                {% endfor %}
+            {% endif %}
+        </div>
 
+        <div class="write_comment">
+            <form action="{{url_for('comment', book_id=book_id, user_id=login_session['user_id'])}}" method="post">
+                <input type="text" name="name" placeholder="write a comment">
+                <input type="submit" class="btn btn-primary" value="post">
+            </form>
+        </div>
+    </div>
 
-
-
-
-    {% endif %}
 
     {% block script %}
         {{ super() }}
