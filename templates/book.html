@@ -27,18 +27,18 @@
         <div class="comments">
             {% if comments %}
                 {% for comment in comments %}
-                    <ul>
-                        <li>{{ comment }}</li>
-                    </ul>
+                    <p>{{ comment.review_write }}</p>
                 {% endfor %}
             {% endif %}
 
-            <form action="{{url_for('comment', book_id=book_id, user_id=login_session['user_id'])}}" method="post">
-                <input type="text" name="name" placeholder="write a comment">
-                <input type="submit" class="btn btn-primary" value="post">
-            </form>
+            {% if login_session['user_id'] %}
+                <form  action="{{url_for('comment', book_id=book_id, user_id=login_session['user_id'])}}" method="post">
+                    <input type="text" name="name" placeholder="write a comment">
+                    <input type="submit" class="btn btn-primary mt-2" value="post">
+                </form>
+            {% endif %}
         </div>
-        
+
         </div>
 
     </div>
