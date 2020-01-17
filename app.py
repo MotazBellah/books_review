@@ -85,7 +85,7 @@ def book(book_id):
     # comments = db.execute('''SELECT review_write, user_id FROM reviews WHERE book_id = :book_id and review_write IS NOT NULL;''',
     #                       {"book_id": book_id}).fetchall()
 
-    comments = db.execute('''SELECT reviews.review_write coment, users.email mail, users.username name  FROM reviews JOIN users ON reviews.user_id = users.id AND reviews.book_id = :book_id and review_write IS NOT NULL;''',
+    comments = db.execute('''SELECT reviews.review_write as coment, users.email as mail, users.username as name FROM reviews JOIN users ON reviews.user_id = users.id AND reviews.book_id = :book_id and review_write IS NOT NULL;''',
                               {"book_id": book_id}).fetchall()
 
 
