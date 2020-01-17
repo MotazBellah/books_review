@@ -84,8 +84,13 @@ def book(book_id):
     # user = db.execute("SELECT username FROM users WHERE id = :id", {"id": login_session['user_id']}).fetchone()
     comments = db.execute('''SELECT review_write, user_id FROM reviews WHERE book_id = :book_id and review_write IS NOT NULL;''',
                           {"book_id": book_id}).fetchall()
+
+    commentss = db.execute('''SELECT reviews.review_write, users.email FROM reviews JOIN users ON reviews.user_id = users.id AND reviews.book_id = :book_id and review_write IS NOT NULL;''',
+                              {"book_id": book_id}).fetchall()
+
+
     print("===========")
-    print(comments)
+    print(commentss)
     print("===========")
     # users = db.execute('''SELECT username FROM users WHERE id IN :id;''',
     #                       {"id": list(comments.user_id)}).fetchall()
