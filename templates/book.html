@@ -35,6 +35,7 @@
         {% endif %}
 
         <div class="comments">
+            <p>{{ users }}</p>
             {% if comments %}
                 {% for comment in comments %}
                 <p>{{ comment.user_id }}</p>
