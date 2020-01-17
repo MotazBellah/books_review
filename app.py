@@ -84,7 +84,7 @@ def book(book_id):
     # print(book_info[0][0])
     comments = db.execute('''SELECT review_write FROM reviews WHERE book_id = :book_id;''',
                           {"book_id": book_id}).fetchall()
-    source = urlopen('https://www.goodreads.com/book/isbn/{}?key=uXFuECWGEsTMTQS5ETg'.format(book_isbn)).read()
+    source = urlopen('https://www.goodreads.com/book/isbn/{}?key=uXFuECWGEsTMTQS5ETg'.format(book_info.isbn)).read()
     soup = bs.BeautifulSoup(source, 'lxml')
     description = soup.find('book').find('description')
     img_url = "http://covers.openlibrary.org/b/isbn/{}-L.jpg".format(book_info.isbn)
