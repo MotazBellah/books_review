@@ -82,7 +82,7 @@ def book(book_id):
     book_info = db.execute('''SELECT title, author, isbn FROM books WHERE id = :id;''',
                               {"id": book_id}).fetchone()
     # user = db.execute("SELECT username FROM users WHERE id = :id", {"id": login_session['user_id']}).fetchone()
-    comments = db.execute('''SELECT review_write, user_id FROM reviews WHERE book_id = :book_id and review_write IS NOT NONE;''',
+    comments = db.execute('''SELECT review_write, user_id FROM reviews WHERE book_id = :book_id and review_write IS NOT NULL;''',
                           {"book_id": book_id}).fetchall()
     source = urlopen('https://www.goodreads.com/book/isbn/{}?key=uXFuECWGEsTMTQS5ETg'.format(book_info.isbn)).read()
     soup = bs.BeautifulSoup(source, 'lxml')
