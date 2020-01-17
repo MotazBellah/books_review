@@ -77,20 +77,20 @@ def index():
     return render_template('index.html', books=books, login_session=login_session)
 
 
-@app.route("/<book_isbn>")
-def book(book_isbn):
-    book_info = db.execute('''SELECT title, author, id FROM books WHERE isbn = :isbn;''',
-                              {"isbn": book_isbn}).fetchone()
+@app.route("/<int:book_id>")
+def book(book_id):
+    book_info = db.execute('''SELECT title, author, isbn FROM books WHERE id = :id;''',
+                              {"id": book_id}).fetchone()
     # print(book_info[0][0])
     comments = db.execute('''SELECT review_write FROM reviews WHERE book_id = :book_id;''',
-                          {"book_id": book_info.id}).fetchall()
+                          {"book_id": book_id}).fetchall()
     source = urlopen('https://www.goodreads.com/book/isbn/{}?key=uXFuECWGEsTMTQS5ETg'.format(book_isbn)).read()
     soup = bs.BeautifulSoup(source, 'lxml')
     description = soup.find('book').find('description')
-    img_url = "http://covers.openlibrary.org/b/isbn/{}-L.jpg".format(book_isbn)
+    img_url = "http://covers.openlibrary.org/b/isbn/{}-L.jpg".format(book_info.isbn)
     print(description.text)
     # if cube:
-    return render_template('book.html', login_session=login_session, comments=comments, description=description.text, img_url=img_url, book_title=book_info.title, book_author=book_info.author, book_id=book_info.id)
+    return render_template('book.html', login_session=login_session, comments=comments, description=description.text, img_url=img_url, book_title=book_info.title, book_author=book_info.author, book_id=book_id)
 
 
 
