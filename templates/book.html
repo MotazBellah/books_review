@@ -37,7 +37,6 @@
         <div class="comments">
             {% if comments %}
                 {% for comment in comments %}
-                <p>{{ user }}</p>
                 <p>{{ comment.user_id }}</p>
                     <p>{{ comment.review_write }}</p>
                 {% endfor %}
