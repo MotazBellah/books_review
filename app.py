@@ -85,10 +85,10 @@ def book(book_id):
     comments = db.execute('''SELECT review_write, user_id FROM reviews WHERE book_id = :book_id and review_write IS NOT NULL;''',
                           {"book_id": book_id}).fetchall()
     print("===========")
-    print(list(comments.user_id))
+    print(comments)
     print("===========")
-    users = db.execute('''SELECT username FROM users WHERE id IN :id;''',
-                          {"id": list(comments.user_id)}).fetchall()
+    # users = db.execute('''SELECT username FROM users WHERE id IN :id;''',
+    #                       {"id": list(comments.user_id)}).fetchall()
     source = urlopen('https://www.goodreads.com/book/isbn/{}?key=uXFuECWGEsTMTQS5ETg'.format(book_info.isbn)).read()
     soup = bs.BeautifulSoup(source, 'lxml')
     description = soup.find('book').find('description')
