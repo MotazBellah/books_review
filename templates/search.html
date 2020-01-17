@@ -18,13 +18,6 @@
                         <img src="http://covers.openlibrary.org/b/isbn/{{ book.isbn }}-M.jpg" alt="">
                         <h4>{{ book.title }}</h4>
                         <p>{{ book.author }}</p></a>
-                        <div class="rating">
-                            <a href="{{url_for('rate', book_id = book.id, value=1)}}"><span title="n1" class="fa fa-star"></span></a>
-                            <a href="{{url_for('rate', book_id = book.id, value=2)}}"><span title="n2" class="fa fa-star"></span></a>
-                            <a href="{{url_for('rate', book_id = book.id, value=3)}}"><span title="n3" class="fa fa-star"></span></a>
-                            <a href="{{url_for('rate', book_id = book.id, value=4)}}"><span title="n4" class="fa fa-star"></span></a>
-                            <a href="{{url_for('rate', book_id = book.id, value=5)}}"><span title="n5" class="fa fa-star"></span></a>
-                        </div>
                 </div>
 
 
