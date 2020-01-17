@@ -89,6 +89,7 @@ def book(book_id):
     print("===========")
     # users = db.execute('''SELECT username FROM users WHERE id IN :id;''',
     #                       {"id": list(comments.user_id)}).fetchall()
+    users = ''
     source = urlopen('https://www.goodreads.com/book/isbn/{}?key=uXFuECWGEsTMTQS5ETg'.format(book_info.isbn)).read()
     soup = bs.BeautifulSoup(source, 'lxml')
     description = soup.find('book').find('description')
