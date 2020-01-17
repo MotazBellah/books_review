@@ -82,7 +82,7 @@ def book(book_id):
     book_info = db.execute('''SELECT title, author, isbn FROM books WHERE id = :id;''',
                               {"id": book_id}).fetchone()
     # user = db.execute("SELECT username FROM users WHERE id = :id", {"id": login_session['user_id']}).fetchone()
-    comments = db.execute('''SELECT review_write, user_id FROM reviews WHERE book_id = :book_id;''',
+    comments = db.execute('''SELECT review_write, user_id FROM reviews WHERE book_id = :book_id and review_write IS NOT NONE;''',
                           {"book_id": book_id}).fetchall()
     source = urlopen('https://www.goodreads.com/book/isbn/{}?key=uXFuECWGEsTMTQS5ETg'.format(book_info.isbn)).read()
     soup = bs.BeautifulSoup(source, 'lxml')
@@ -126,7 +126,7 @@ def comment(book_id, user_id):
                   {"review_write": comment, "book_id": book_id, "user_id": login_session['user_id']})
 
         db.commit()
-        return redirect(url_for('index'))
+        return redirect(url_for('book', book_id=book_id))
 
 
 @app.route("/search", methods=['GET', 'POST'])
