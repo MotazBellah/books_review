@@ -109,7 +109,7 @@ def rate(user_id, book_id):
                   {"review_count": value, "book_id": book_id, "user_id": login_session['user_id']})
 
     db.commit()
-    return str(book_id) + ' ' + str(value) + ' ' + str(user_id)
+    return redirect(url_for('index'))
 
 
 @app.route("/comment/<int:user_id>/<int:book_id>", methods=['GET', 'POST'])
