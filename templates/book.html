@@ -38,8 +38,8 @@
             <p>{{ users }}</p>
             {% if comments %}
                 {% for comment in comments %}
-                <p>{{ comment.user_id }}</p>
-                    <p>{{ comment.review_write }}</p>
+                <p>{{ comment.name }}</p>
+                    <p>{{ comment.coment }}</p>
                 {% endfor %}
             {% endif %}
 
