@@ -23,7 +23,7 @@
         {% else %}
             <h4>There is no description available</h4>
         {% endif %}
-
+            <p>The book rating on goodreads is <strong>{{ rating }}</strong></p>
         {% if login_session['user_id'] %}
             <div class="rating">
                 <a href="{{url_for('rate', user_id=login_session['user_id'], book_id = book_id, value=1)}}"><span title="n1" class="fa fa-star"></span></a>

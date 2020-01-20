@@ -3,7 +3,7 @@ from flask import session as login_session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 import bs4 as bs
-# from urllib.request import urlopen
+import requests
 from flask_login import LoginManager, login_user, current_user, login_required, logout_user
 try:
     from urllib import urlopen
@@ -88,10 +88,10 @@ def book(book_id):
     comments = db.execute('''SELECT reviews.review_write as coment, users.email as mail, users.username as name FROM reviews JOIN users ON reviews.user_id = users.id AND reviews.book_id = :book_id and review_write IS NOT NULL;''',
                               {"book_id": book_id}).fetchall()
 
-
+    res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "uXFuECWGEsTMTQS5ETg", "isbns": "{}".format(book_info.isbn)})
+    print(res.json()['books'][0]['average_rating'])
     print("===========")
-    print(comments)
-    print("===========")
+    rating = res.json()['books'][0]['average_rating']
     # users = db.execute('''SELECT username FROM users WHERE id IN :id;''',
     #                       {"id": list(comments.user_id)}).fetchall()
 
@@ -101,7 +101,7 @@ def book(book_id):
     img_url = "http://covers.openlibrary.org/b/isbn/{}-L.jpg".format(book_info.isbn)
     print(description.text)
     # if cube:
-    return render_template('book.html', login_session=login_session, comments=comments, description=description.text, img_url=img_url, book_title=book_info.title, book_author=book_info.author, book_id=book_id)
+    return render_template('book.html', rating=rating, login_session=login_session, comments=comments, description=description.text, img_url=img_url, book_title=book_info.title, book_author=book_info.author, book_id=book_id)
 
 
 
