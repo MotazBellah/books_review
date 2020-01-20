@@ -147,7 +147,7 @@ def search():
         books = db.execute('''SELECT * FROM books WHERE title ILIKE '%{}%'
                            OR isbn ILIKE '%{}%' OR author ILIKE '%{}%';'''.format(name, name, name)).fetchall()
 
-        return render_template('index.html', books=books, login_session=login_session)
+        return render_template('search.html', books=books, login_session=login_session)
 
 
 
