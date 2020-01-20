@@ -18,10 +18,10 @@
         <div class="info">
         {% if description %}
             <h2>{{ book_title }}</h2>
-            <p>{{ book_author }}</p>
-            <p>{{ description }}</p>
+            <p>{{ book_author }}</p><br>
+            <p>{{ description.replace(']]>','') }}</p><br>
         {% else %}
-            <h4>There is no description available</h4>
+            <h4>There is no description available</h4><br>
         {% endif %}
             <p>The book rating on goodreads is <strong>{{ rating }}</strong></p>
         {% if login_session['user_id'] %}
@@ -35,10 +35,11 @@
         {% endif %}
 
         <div class="comments">
+            <h4>Comments</h4>
             {% if comments %}
                 {% for comment in comments %}
-                <p>{{ comment.name }}</p>
-                    <p>{{ comment.coment }}</p>
+                    <p><strong>{{ comment.name }}</strong></p>
+                    <p>{{ comment.coment }}</p><br>
                 {% endfor %}
             {% endif %}
 
