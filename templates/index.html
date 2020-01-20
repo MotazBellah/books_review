@@ -27,7 +27,8 @@
                     <a href="{{url_for('book', book_id = book.id)}}">
                         <img src="http://covers.openlibrary.org/b/isbn/{{ book.isbn }}-M.jpg" alt="">
                         <h4>{{ book.title }}</h4>
-                        <p>{{ book.author }}</p></a>
+                        <p>{{ book.author }}</p>
+                        <p>Published at {{ book.year }}</p></a>
                 </div>
 
 
