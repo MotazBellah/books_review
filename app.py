@@ -144,11 +144,8 @@ def comment(book_id, user_id):
 def search():
     if request.method == 'POST':
         name = request.form['name']
-        # books = db.execute('''SELECT * FROM books WHERE title=:title
-        #                    OR isbn=:isbn OR author=:author;''',
-        #                    {"title": name, "author": name, "isbn": name}).fetchall()
-        books = db.execute('''SELECT * FROM books WHERE title ILIKE %{}%
-                           OR isbn ILIKE %{}% OR author ILIKE %{}%;'''.format(name, name, name)).fetchall()
+        books = db.execute('''SELECT * FROM books WHERE title ILIKE '%{}%'
+                           OR isbn ILIKE '%{}%' OR author ILIKE '%{}%';'''.format(name, name, name)).fetchall()
 
         return render_template('search.html', books=books)
 
