@@ -155,9 +155,9 @@
   <body>
       <header class="main-header">
           <div class="container-fluid clearfix">
-              <h1 class="name">Book Review</h1>
+              <a href="{{ url_for('index') }}"><h1 class="name">Books Review</h1></a>
               <a href="{{ url_for('register') }}"><h4 class="main-nav mt-3 ml-4">Register</h4></a>
-              {% if login_session['user_id'] %}
+              {% if login_session %}
                   <a href="{{ url_for('logout') }}"><h4 class="main-nav mt-3">Log Out</h4></a>
               {% else %}
                   <a href="{{ url_for('login') }}"><h4 class="main-nav mt-3">Log In</h4></a>
