@@ -14,7 +14,7 @@
     {% if login_session %}
         <div class="search mb-3 mr-3">
             <form action="{{url_for('search')}}" method="post">
-                <input type="text" name="name" placeholder="search for books">
+                <input type="text" name="name" placeholder="Search for books by title, author or ISBN number">
                 <input type="submit" class="btn btn-primary" value="Search">
             </form>
         </div>
