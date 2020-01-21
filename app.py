@@ -35,6 +35,8 @@ def load_user(id):
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
+    if login_session['user_id']:
+        del login_session['user_id']
     reg_form = RegistartionForm()
     if reg_form.validate_on_submit():
         username = reg_form.username.data
