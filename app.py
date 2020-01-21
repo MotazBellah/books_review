@@ -89,6 +89,13 @@ def book(book_id):
                               {"book_id": book_id}).fetchall()
     user_rate = db.execute('''SELECT review_count FROM reviews WHERE book_id = :book_id and user_id = :user_id;''',
                       {"book_id": book_id, "user_id": login_session['user_id']}).fetchone()
+    total_rate = db.execute('''SELECT (sum(review_count) / count(id)) as total_rating FROM reviews WHERE book_id = :book_id;''',
+                          {"book_id": book_id}).fetchone()
+    if total_rate:
+        total = total_rate.total_rating
+    else:
+        total = 0
+
     if user_rate:
         rate = user_rate.review_count
     else:
@@ -106,7 +113,7 @@ def book(book_id):
     img_url = "http://covers.openlibrary.org/b/isbn/{}-L.jpg".format(book_info.isbn)
     print(description.text)
     # if cube:
-    return render_template('book.html', user_rate=rate, rating=rating, login_session=login_session, comments=comments, description=description.text, img_url=img_url, book_title=book_info.title, book_author=book_info.author, book_id=book_id)
+    return render_template('book.html', total_rate=total, user_rate=rate, rating=rating, login_session=login_session, comments=comments, description=description.text, img_url=img_url, book_title=book_info.title, book_author=book_info.author, book_id=book_id)
 
 
 
