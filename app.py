@@ -39,8 +39,8 @@ def register():
         if login_session['user_id']:
             del login_session['user_id']
     except Exception as e:
-        pass 
-
+        pass
+    login_session = False
     reg_form = RegistartionForm()
     if reg_form.validate_on_submit():
         username = reg_form.username.data
@@ -56,6 +56,14 @@ def register():
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
+    try:
+        if login_session['user_id']:
+            del login_session['user_id']
+    except Exception as e:
+        pass
+        
+    login_session = False
+
     login_form = LoginForm()
     if login_form.validate_on_submit():
         email = login_form.email.data
