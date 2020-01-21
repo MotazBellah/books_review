@@ -89,7 +89,7 @@ def book(book_id):
                               {"book_id": book_id}).fetchall()
     user_rate = db.execute('''SELECT review_count FROM reviews WHERE book_id = :book_id and user_id = :user_id;''',
                       {"book_id": book_id, "user_id": login_session['user_id']}).fetchone()
-    total_rate = db.execute('''SELECT (sum(review_count) / count(id)) as total_rating FROM reviews WHERE book_id = :book_id;''',
+    total_rate = db.execute('''SELECT CAST (sum(review_count) as DOUBLE PRECISION) / CAST(count(id) as DOUBLE PRECISION) as total_rating FROM reviews WHERE book_id = :book_id;''',
                           {"book_id": book_id}).fetchone()
     if total_rate:
         total = total_rate.total_rating
