@@ -102,7 +102,7 @@ def book(book_id):
     img_url = "http://covers.openlibrary.org/b/isbn/{}-L.jpg".format(book_info.isbn)
     print(description.text)
     # if cube:
-    return render_template('book.html', user_rate=user_rate, rating=rating, login_session=login_session, comments=comments, description=description.text, img_url=img_url, book_title=book_info.title, book_author=book_info.author, book_id=book_id)
+    return render_template('book.html', user_rate=user_rate.review_count, rating=rating, login_session=login_session, comments=comments, description=description.text, img_url=img_url, book_title=book_info.title, book_author=book_info.author, book_id=book_id)
 
 
 
