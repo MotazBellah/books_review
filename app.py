@@ -61,8 +61,6 @@ def login():
             del login_session['user_id']
     except Exception as e:
         pass
-        
-    login_session = False
 
     login_form = LoginForm()
     if login_form.validate_on_submit():
@@ -75,7 +73,7 @@ def login():
         else:
             return redirect(url_for('register'))
 
-    return render_template('login.html', form=login_form, login_session=login_session)
+    return render_template('login.html', form=login_form, login_session='')
 
 
 @app.route('/logout')
