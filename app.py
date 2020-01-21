@@ -78,7 +78,7 @@ def index():
         logged_user = login_session['user_id']
     except Exception as e:
         logged_user = False
-    return render_template('index.html', books=books, login_session=login_user)
+    return render_template('index.html', books=books, login_session=logged_user)
 
 
 @app.route("/<int:book_id>")
