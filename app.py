@@ -115,7 +115,7 @@ def book(book_id):
     total_rate = db.execute('''SELECT CAST (sum(review_count) as DOUBLE PRECISION) / CAST(count(id) as DOUBLE PRECISION) as total_rating FROM reviews WHERE book_id = :book_id;''',
                           {"book_id": book_id}).fetchone()
     if total_rate:
-        total = total_rate.total_rating
+        total = round(total_rate.total_rating, 2)
     else:
         total = 0
 
