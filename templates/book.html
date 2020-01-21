@@ -26,7 +26,7 @@
             <h4>Rating</h4><br>
             <p>The book rating on goodreads is <strong>{{ rating }}</strong></p>
             <p>The total rating is <strong>{{ total_rate }}</strong></p><br>
-        {% if login_session['user_id'] %}
+        {% if login_session %}
             <h5>User Rating</h5>
             <div class="rating">
                 {% if user_rate == 1 %}
@@ -78,7 +78,7 @@
                 {% endfor %}
             {% endif %}
 
-            {% if login_session['user_id'] %}
+            {% if login_session %}
                 <form  action="{{url_for('comment', book_id=book_id, user_id=login_session['user_id'])}}" method="post">
                     <input type="text" class="form-control" name="name" placeholder="Write a comment">
                     <input type="submit" class="btn btn-primary mt-2 mb-4" value="post">

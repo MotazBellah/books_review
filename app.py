@@ -74,21 +74,32 @@ def logout():
 @app.route("/")
 def index():
     books = db.execute("SELECT * FROM books limit 20 offset 2").fetchall()
-    return render_template('index.html', books=books, login_session=login_session)
+    try:
+        logged_user = login_session['user_id']
+    except Exception as e:
+        logged_user = False
+    return render_template('index.html', books=books, login_session=login_user)
 
 
 @app.route("/<int:book_id>")
 def book(book_id):
+    try:
+        logged_user = login_session['user_id']
+        user_rate = db.execute('''SELECT review_count FROM reviews WHERE book_id = :book_id and user_id = :user_id;''',
+                              {"book_id": book_id, "user_id": login_session['user_id']}).fetchone()
+        if user_rate:
+            rate = user_rate.review_count
+        else:
+            rate = 0
+    except Exception as e:
+        logged_user = False
+        rate = 0
+
     book_info = db.execute('''SELECT title, author, isbn FROM books WHERE id = :id;''',
                               {"id": book_id}).fetchone()
-    # user = db.execute("SELECT username FROM users WHERE id = :id", {"id": login_session['user_id']}).fetchone()
-    # comments = db.execute('''SELECT review_write, user_id FROM reviews WHERE book_id = :book_id and review_write IS NOT NULL;''',
-    #                       {"book_id": book_id}).fetchall()
-
     comments = db.execute('''SELECT reviews.review_write as coment, users.email as mail, users.username as name FROM reviews JOIN users ON reviews.user_id = users.id AND reviews.book_id = :book_id and review_write IS NOT NULL;''',
                               {"book_id": book_id}).fetchall()
-    user_rate = db.execute('''SELECT review_count FROM reviews WHERE book_id = :book_id and user_id = :user_id;''',
-                      {"book_id": book_id, "user_id": login_session['user_id']}).fetchone()
+
     total_rate = db.execute('''SELECT CAST (sum(review_count) as DOUBLE PRECISION) / CAST(count(id) as DOUBLE PRECISION) as total_rating FROM reviews WHERE book_id = :book_id;''',
                           {"book_id": book_id}).fetchone()
     if total_rate:
@@ -96,10 +107,6 @@ def book(book_id):
     else:
         total = 0
 
-    if user_rate:
-        rate = user_rate.review_count
-    else:
-        rate = 0
     res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "uXFuECWGEsTMTQS5ETg", "isbns": "{}".format(book_info.isbn)})
     print(res.json()['books'][0]['average_rating'])
     print("===========")
@@ -113,7 +120,7 @@ def book(book_id):
     img_url = "http://covers.openlibrary.org/b/isbn/{}-L.jpg".format(book_info.isbn)
     print(description.text)
     # if cube:
-    return render_template('book.html', total_rate=total, user_rate=rate, rating=rating, login_session=login_session, comments=comments, description=description.text, img_url=img_url, book_title=book_info.title, book_author=book_info.author, book_id=book_id)
+    return render_template('book.html', total_rate=total, user_rate=rate, rating=rating, login_session=logged_user, comments=comments, description=description.text, img_url=img_url, book_title=book_info.title, book_author=book_info.author, book_id=book_id)
 
 
 
