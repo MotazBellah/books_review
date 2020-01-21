@@ -81,7 +81,7 @@
             {% if login_session['user_id'] %}
                 <form  action="{{url_for('comment', book_id=book_id, user_id=login_session['user_id'])}}" method="post">
                     <input type="text" class="form-control" name="name" placeholder="Write a comment">
-                    <input type="submit" class="btn btn-primary my-3" value="post">
+                    <input type="submit" class="btn btn-primary mt-2 mb-4" value="post">
                 </form>
             {% endif %}
         </div>
