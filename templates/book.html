@@ -27,6 +27,7 @@
             <p>The book rating on goodreads is <strong>{{ rating }}</strong></p>
             <p>The total rating is <strong>{{ total_rate }}</strong></p><br>
         {% if login_session['user_id'] %}
+            <h5>User Rating</h5>
             <div class="rating">
                 {% if user_rate == 1 %}
                 <a href="{{url_for('rate', user_id=login_session['user_id'], book_id = book_id, value=1)}}"><span title="n1" class="fa fa-star checked"></span></a>
@@ -79,7 +80,7 @@
 
             {% if login_session['user_id'] %}
                 <form  action="{{url_for('comment', book_id=book_id, user_id=login_session['user_id'])}}" method="post">
-                    <input type="text" name="name" placeholder="write a comment">
+                    <input type="text" class="form-control" name="name" placeholder="Write a comment">
                     <input type="submit" class="btn btn-primary mt-2" value="post">
                 </form>
             {% endif %}
