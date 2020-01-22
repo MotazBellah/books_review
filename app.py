@@ -109,22 +109,20 @@ def book(book_id):
 
     book_info = db.execute('''SELECT title, author, isbn FROM books WHERE id = :id;''',
                               {"id": book_id}).fetchone()
-    comments = db.execute('''SELECT reviews.review_write as coment, users.email as mail, users.username as name FROM reviews JOIN users ON reviews.user_id = users.id AND reviews.book_id = :book_id and review_write IS NOT NULL;''',
-                              {"book_id": book_id}).fetchall()
+    comments = db.execute('''SELECT reviews.review_write as coment, users.email as mail, users.username as name
+                          FROM reviews JOIN users ON reviews.user_id = users.id AND
+                          reviews.book_id = :book_id and review_write IS NOT NULL;''',
+                          {"book_id": book_id}).fetchall()
 
-    total_rate = db.execute('''SELECT CAST (sum(review_count) as DOUBLE PRECISION) / CAST(count(id) as DOUBLE PRECISION) as total_rating FROM reviews WHERE book_id = :book_id;''',
-                          {"book_id": book_id}).fetchone()
+    total_rate = db.execute('''SELECT CAST (sum(review_count) as DOUBLE PRECISION) / CAST(count(id) as DOUBLE PRECISION)
+                            as total_rating FROM reviews WHERE book_id = :book_id;''',
+                           {"book_id": book_id}).fetchone()
     if total_rate.total_rating:
         total = round(total_rate.total_rating, 2)
     else:
         total = 0
 
     res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "uXFuECWGEsTMTQS5ETg", "isbns": "{}".format(book_info.isbn)})
-    print(res.json()['books'][0]['average_rating'])
-    print("===========")
-    rating = res.json()['books'][0]['average_rating']
-    # users = db.execute('''SELECT username FROM users WHERE id IN :id;''',
-    #                       {"id": list(comments.user_id)}).fetchall()
 
     source = urlopen('https://www.goodreads.com/book/isbn/{}?key=uXFuECWGEsTMTQS5ETg'.format(book_info.isbn)).read()
     soup = bs.BeautifulSoup(source, 'lxml')
@@ -132,15 +130,14 @@ def book(book_id):
     img_url = "http://covers.openlibrary.org/b/isbn/{}-L.jpg".format(book_info.isbn)
     print(description.text)
     # if cube:
-    return render_template('book.html', total_rate=total, user_rate=rate, rating=rating, login_session=logged_user, comments=comments, description=description.text, img_url=img_url, book_title=book_info.title, book_author=book_info.author, book_id=book_id)
-
+    return render_template('book.html', total_rate=total, user_rate=rate, rating=rating,
+                           login_session=logged_user, comments=comments, description=description.text,
+                           img_url=img_url, book_title=book_info.title, book_author=book_info.author, book_id=book_id)
 
 
 @app.route("/rate/<int:user_id>/<int:book_id>")
 def rate(user_id, book_id):
     value = request.args['value']
-    # db.execute("INSERT INTO reviews (review_count) VALUES (:value) WHERE book_id= :book_id and user_id = :user_id;",
-    #           {"value": int(value), "user_id":user_id, "book_id":book_id})
     user_rate = db.execute('''SELECT * FROM reviews WHERE book_id = :book_id and user_id = :user_id;''',
                           {"book_id": book_id, "user_id": user_id}).fetchone()
     if user_rate:
