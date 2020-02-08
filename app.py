@@ -5,6 +5,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 import bs4 as bs
 import requests
 from flask_login import LoginManager, login_user, current_user, login_required, logout_user
+# To make sure the code is correct with python 2.x and 3.x
 try:
     from urllib import urlopen
 except ImportError:
@@ -33,20 +34,26 @@ def load_user(id):
     return user_object
 
 
+# Register route, render the form and validate the register form
 @app.route("/register", methods=['GET', 'POST'])
 def register():
+    # Make sure the user_id not in session
     try:
         if login_session['user_id']:
             del login_session['user_id']
     except Exception as e:
         pass
     login_session = False
+    # load the registration form from the wtform_fields
     reg_form = RegistartionForm()
     if reg_form.validate_on_submit():
+        # get the data from each field
         username = reg_form.username.data
         email = reg_form.email.data
         password = reg_form.password.data
+        # use passlib.hash to hash the password
         hashed_pswd = pbkdf2_sha256.hash(password)
+        # load the data into users table, then redirect to login page
         db.execute("INSERT INTO users (username,email,password) VALUES (:username, :email, :password)",
                    {"username": username, "email": email, "password": hashed_pswd})
         db.commit()
@@ -54,20 +61,23 @@ def register():
 
     return render_template('register.html', form=reg_form, login_session=login_session)
 
+
+# Login route, render the form and validate the login form
 @app.route("/login", methods=['GET', 'POST'])
 def login():
+    #  Make sure there is no user logged in
     try:
         if login_session['user_id']:
             del login_session['user_id']
     except Exception as e:
         pass
-
+    # load the login form from the wtform_fields
     login_form = LoginForm()
     if login_form.validate_on_submit():
+        # get the data and check if the user is Registered
         email = login_form.email.data
         user_object = db.execute("SELECT * FROM users WHERE email = :email", {"email": email}).fetchone()
         if user_object:
-            # login_user(user_object)
             login_session['user_id'] = user_object.id
             return redirect(url_for('index'))
         else:
@@ -76,6 +86,7 @@ def login():
     return render_template('login.html', form=login_form, login_session='')
 
 
+# Logout route, delete the user_id
 @app.route('/logout')
 def logout():
     if login_session['user_id']:
@@ -83,6 +94,8 @@ def logout():
     return redirect(url_for('index'))
 
 
+# Main route, render some books on the page
+# Make suer if the user is logged in to display the search bar
 @app.route("/")
 def index():
     books = db.execute("SELECT * FROM books limit 20 offset 2").fetchall()
@@ -93,8 +106,12 @@ def index():
     return render_template('index.html', books=books, login_session=logged_user)
 
 
+# Book info route,display the book information(goodreads rating, image, description)
+# allow the user to set the rating and write reviews and read other user's reviews
 @app.route("/<int:book_id>")
 def book(book_id):
+    # If user logged in, render the rate and comment forms
+    # allow the user to set the rating and write a comment
     try:
         logged_user = login_session['user_id']
         user_rate = db.execute('''SELECT review_count FROM reviews WHERE book_id = :book_id and user_id = :user_id;''',
@@ -107,29 +124,36 @@ def book(book_id):
         logged_user = False
         rate = 0
 
+    # get the book information to use it in the html page
     book_info = db.execute('''SELECT title, author, isbn FROM books WHERE id = :id;''',
                               {"id": book_id}).fetchone()
+    # get all reviews from all users and send it to html page
     comments = db.execute('''SELECT reviews.review_write as coment, users.email as mail, users.username as name
                           FROM reviews JOIN users ON reviews.user_id = users.id AND
                           reviews.book_id = :book_id and review_write IS NOT NULL;''',
                           {"book_id": book_id}).fetchall()
-
+    # calculate the total rate for each book
     total_rate = db.execute('''SELECT CAST (sum(review_count) as DOUBLE PRECISION) / CAST(count(id) as DOUBLE PRECISION)
                             as total_rating FROM reviews WHERE book_id = :book_id;''',
                            {"book_id": book_id}).fetchone()
+    # if found a total rate, i.e if some user set rating, then round it to 2
     if total_rate.total_rating:
         total = round(total_rate.total_rating, 2)
     else:
         total = 0
 
     res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "uXFuECWGEsTMTQS5ETg", "isbns": "{}".format(book_info.isbn)})
-
+    # send get request to get the information of each book from goodreads API
+    # The response in XML format
     source = urlopen('https://www.goodreads.com/book/isbn/{}?key=uXFuECWGEsTMTQS5ETg'.format(book_info.isbn)).read()
+    # Use BeautifulSoup to parse the xml response
     soup = bs.BeautifulSoup(source, 'lxml')
+    # get the description
     description = soup.find('book').find('description')
+    # Use openlibrary API tp get the image of each book
     img_url = "http://covers.openlibrary.org/b/isbn/{}-L.jpg".format(book_info.isbn)
     print(description.text)
-    # if cube:
+
     return render_template('book.html', total_rate=total, user_rate=rate, rating=rating,
                            login_session=logged_user, comments=comments, description=description.text,
                            img_url=img_url, book_title=book_info.title, book_author=book_info.author, book_id=book_id)
