@@ -158,15 +158,20 @@ def book(book_id):
                            login_session=logged_user, comments=comments, description=description.text,
                            img_url=img_url, book_title=book_info.title, book_author=book_info.author, book_id=book_id)
 
-
+# Get the book id and user id to set the rating
 @app.route("/rate/<int:user_id>/<int:book_id>")
 def rate(user_id, book_id):
+    # get the rating value from url
     value = request.args['value']
+    # check if the user write a review or rating for this book
     user_rate = db.execute('''SELECT * FROM reviews WHERE book_id = :book_id and user_id = :user_id;''',
                           {"book_id": book_id, "user_id": user_id}).fetchone()
+    # If the user write a review for the book,
+    #  then update the table by adding the value of the rating
     if user_rate:
         db.execute("UPDATE reviews SET review_count = :value WHERE book_id= :book_id and user_id = :user_id;",
                   {"value": int(value), "user_id":user_id, "book_id":book_id})
+    # If not, then insert the value of the rating
     else:
         db.execute('''INSERT INTO reviews (review_count, book_id, user_id) VALUES (:review_count, :book_id, :user_id);''',
                   {"review_count": value, "book_id": book_id, "user_id": login_session['user_id']})
@@ -174,16 +179,21 @@ def rate(user_id, book_id):
     db.commit()
     return redirect(url_for('book', book_id=book_id))
 
-
+# Get the book id and user id to write a review
 @app.route("/comment/<int:user_id>/<int:book_id>", methods=['GET', 'POST'])
 def comment(book_id, user_id):
     if request.method == 'POST':
+        # get the value from the form
         comment = request.form['name']
+        # check if the user write a review or rating for this book
         user_rate = db.execute('''SELECT * FROM reviews WHERE book_id = :book_id and user_id = :user_id;''',
                               {"book_id": book_id, "user_id": user_id}).fetchone()
+        # If the user set the rating for the book,
+        # then update the table by adding the value of the review
         if user_rate:
             db.execute("UPDATE reviews SET review_write = :review_write WHERE book_id= :book_id and user_id = :user_id;",
                     {"review_write": comment, "user_id":user_id, "book_id":book_id})
+        # If not, then insert the value of the review
         else:
             db.execute('''INSERT INTO reviews (review_write, book_id, user_id) VALUES (:review_write, :book_id, :user_id);''',
                   {"review_write": comment, "book_id": book_id, "user_id": login_session['user_id']})
@@ -192,6 +202,7 @@ def comment(book_id, user_id):
         return redirect(url_for('book', book_id=book_id))
 
 
+# search using title, isbn or auther
 @app.route("/search", methods=['GET', 'POST'])
 def search():
     if request.method == 'POST':
