@@ -221,8 +221,10 @@ def book_api(isbn):
     print(book)
     print('|||||||||||||||||||||||||||||||')
     if book:
-        rate = db.execute('''SELECT * FROM reviews WHERE book_id = :book_id;''',
-                          {"book_id": book.id}).fetchone()
+        print('TTTTTTTTTTTTTTTTTT')
+        print(book.id)
+        rate = db.execute('''SELECT * FROM reviews WHERE book_id = :book_id and user_id = :user_id;''',
+                          {"book_id": book.id, "user_id": login_session['user_id']}).fetchone()
 
     print('|||||||||||||||||||||||||||||||')
     print(rate)
