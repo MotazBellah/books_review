@@ -224,9 +224,15 @@ def book_api(isbn):
         print(book.id)
         # rate = db.execute('''SELECT * FROM reviews WHERE book_id = :book_id and user_id = :user_id;''',
         #                   {"book_id": book.id, "user_id": login_session['user_id']}).fetchone()
-        total_rate = db.execute('''SELECT (CAST (sum(review_count) as DOUBLE PRECISION) / CAST(count(id) as DOUBLE PRECISION)
-                                as total_rating FROM reviews WHERE book_id = :book_id;''',
-                                {"book_id": book.id}).fetchone()
+
+        # total_rate = db.execute('''SELECT CAST (sum(review_count) as DOUBLE PRECISION) / CAST(count(id) as DOUBLE PRECISION)
+        #                         as total_rating FROM reviews WHERE book_id = :book_id;''',
+        #                        {"book_id": book.id}).fetchone()
+
+        total_rate = db.execute('''SELECT sum(review_count) as total_rating FROM reviews WHERE book_id = :book_id;''',
+                               {"book_id": book.id}).fetchone()
+
+
 
 
         print('|||||||||||||||||||||||||||||||')
