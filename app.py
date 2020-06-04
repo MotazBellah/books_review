@@ -143,8 +143,8 @@ def book(book_id):
         total = 0
 
     res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "uXFuECWGEsTMTQS5ETg", "isbns": "{}".format(book_info.isbn)})
-    print(res['books'][0]["average_rating"])
-    print(res['books'][0]["ratings_count"])
+    print(res.json()['books'][0]["average_rating"])
+    print(res.json()['books'][0]["ratings_count"])
     # send get request to get the information of each book from goodreads API
     # The response in XML format
     source = urlopen('https://www.goodreads.com/book/isbn/{}?key=uXFuECWGEsTMTQS5ETg'.format(book_info.isbn)).read()
