@@ -219,17 +219,19 @@ def search():
 def book_api(isbn):
     book = db.execute('''SELECT * FROM books WHERE isbn = :isbn;''',
                      {"isbn": isbn}).fetchone()
-    print('|||||||||||||||||||||||||||||||')
-    print(book)
-    print('|||||||||||||||||||||||||||||||')
     if book:
         print('TTTTTTTTTTTTTTTTTT')
         print(book.id)
         # rate = db.execute('''SELECT * FROM reviews WHERE book_id = :book_id and user_id = :user_id;''',
         #                   {"book_id": book.id, "user_id": login_session['user_id']}).fetchone()
-        total_rate = db.execute('''SELECT count(id) as count, (CAST (sum(review_count) as DOUBLE PRECISION) / CAST(count(id) as DOUBLE PRECISION)
+        total_rate = db.execute('''SELECT (CAST (sum(review_count) as DOUBLE PRECISION) / CAST(count(id) as DOUBLE PRECISION)
                                 as total_rating FROM reviews WHERE book_id = :book_id;''',
                                 {"book_id": book.id}).fetchone()
+
+
+        print('|||||||||||||||||||||||||||||||')
+        print(total_rate)
+        print('|||||||||||||||||||||||||||||||')
 
         if total_rate.total_rating:
             average_score = round(total_rate.total_rating, 2)
