@@ -125,7 +125,7 @@ def book(book_id):
         rate = 0
 
     # get the book information to use it in the html page
-    book_info = db.execute('''SELECT title, author, isbn FROM books WHERE id = :id;''',
+    book_info = db.execute('''SELECT title, author, isbn, year FROM books WHERE id = :id;''',
                               {"id": book_id}).fetchone()
     # get all reviews from all users and send it to html page
     comments = db.execute('''SELECT reviews.review_write as coment, users.email as mail, users.username as name
@@ -157,7 +157,7 @@ def book(book_id):
     img_url = "http://covers.openlibrary.org/b/isbn/{}-L.jpg".format(book_info.isbn)
 
     return render_template('book.html', total_rate=total, user_rate=rate, rating=goodreads_rating, count=goodreads_rating_count,
-                           login_session=logged_user, comments=comments, description=description.text,
+                           login_session=logged_user, comments=comments, description=description.text, isbn=book_info.isbn, year=book_info.year
                            img_url=img_url, book_title=book_info.title, book_author=book_info.author, book_id=book_id)
 
 # Get the book id and user id to set the rating
