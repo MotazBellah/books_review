@@ -1,4 +1,4 @@
-from flask import Flask, session, render_template, request, redirect, url_for
+from flask import Flask, session, render_template, request, redirect, url_for, jsonify
 from flask import session as login_session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -211,6 +211,31 @@ def search():
                            OR isbn ILIKE '%{}%' OR author ILIKE '%{}%';'''.format(name, name, name)).fetchall()
 
         return render_template('search.html', books=books, login_session=login_session)
+
+
+@app.route("/api/<isbn>", methods=['GET'])
+def book_api(isbn):
+    book = db.execute('''SELECT * FROM books WHERE isbn = :isbn;''',
+                     {"isbn": isbn}).fetchone()
+    print('|||||||||||||||||||||||||||||||')
+    print(book)
+    print('|||||||||||||||||||||||||||||||')
+    if book:
+        rate = db.execute('''SELECT * FROM reviews WHERE book_id = :book_id;''',
+                          {"isbn": book.id}).fetchone()
+
+    print('|||||||||||||||||||||||||||||||')
+    print(rate)
+    print('|||||||||||||||||||||||||||||||')
+    return jsonify({
+            "title": book.title,
+            "author": book.author,
+            "year": book.year,
+            "isbn": book.isbn,
+            "review_count": rate.review_count,
+            "average_score": rate.average_score
+        })
+
 
 
 
