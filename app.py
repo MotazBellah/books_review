@@ -222,7 +222,7 @@ def book_api(isbn):
     print('|||||||||||||||||||||||||||||||')
     if book:
         rate = db.execute('''SELECT * FROM reviews WHERE book_id = :book_id;''',
-                          {"isbn": book.id}).fetchone()
+                          {"book_id": book.id}).fetchone()
 
     print('|||||||||||||||||||||||||||||||')
     print(rate)
