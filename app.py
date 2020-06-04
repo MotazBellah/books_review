@@ -220,24 +220,8 @@ def book_api(isbn):
     book = db.execute('''SELECT * FROM books WHERE isbn = :isbn;''',
                      {"isbn": isbn}).fetchone()
     if book:
-        print('TTTTTTTTTTTTTTTTTT')
-        print(book.id)
-        # rate = db.execute('''SELECT * FROM reviews WHERE book_id = :book_id and user_id = :user_id;''',
-        #                   {"book_id": book.id, "user_id": login_session['user_id']}).fetchone()
-
-        # total_rate = db.execute('''SELECT CAST (sum(review_count) as DOUBLE PRECISION) / CAST(count(id) as DOUBLE PRECISION)
-        #                         as total_rating FROM reviews WHERE book_id = :book_id;''',
-        #                        {"book_id": book.id}).fetchone()
-
         total_rate = db.execute('''SELECT sum(review_count) as total_rating, count(*) as count FROM reviews WHERE book_id = :book_id;''',
                                {"book_id": book.id}).fetchone()
-
-
-
-
-        print('|||||||||||||||||||||||||||||||')
-        print(total_rate)
-        print('|||||||||||||||||||||||||||||||')
 
         if total_rate.total_rating:
             count = total_rate.count
@@ -247,17 +231,17 @@ def book_api(isbn):
             average_score = 0
             count = 0
 
-    print('|||||||||||||||||||||||||||||||')
-    print(rate)
-    print('|||||||||||||||||||||||||||||||')
-    return jsonify({
-            "title": book.title,
-            "author": book.author,
-            "year": book.year,
-            "isbn": book.isbn,
-            "review_count": count,
-            "average_score": average_score
-        })
+        return jsonify({
+                "title": book.title,
+                "author": book.author,
+                "year": book.year,
+                "isbn": book.isbn,
+                "review_count": count,
+                "average_score": average_score
+            })
+    else:
+         return jsonify({"error": "Invalid book"}), 422
+
 
 
 
