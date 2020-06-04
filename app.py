@@ -157,7 +157,7 @@ def book(book_id):
     img_url = "http://covers.openlibrary.org/b/isbn/{}-L.jpg".format(book_info.isbn)
 
     return render_template('book.html', total_rate=total, user_rate=rate, rating=goodreads_rating, count=goodreads_rating_count,
-                           login_session=logged_user, comments=comments, description=description.text, isbn=book_info.isbn, year=book_info.year
+                           login_session=logged_user, comments=comments, description=description.text, isbn=book_info.isbn, year=book_info.year,
                            img_url=img_url, book_title=book_info.title, book_author=book_info.author, book_id=book_id)
 
 # Get the book id and user id to set the rating
