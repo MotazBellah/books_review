@@ -143,7 +143,8 @@ def book(book_id):
         total = 0
 
     res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "uXFuECWGEsTMTQS5ETg", "isbns": "{}".format(book_info.isbn)})
-    print(res)
+    print(res['books'][0]["average_rating"])
+    print(res['books'][0]["ratings_count"])
     # send get request to get the information of each book from goodreads API
     # The response in XML format
     source = urlopen('https://www.goodreads.com/book/isbn/{}?key=uXFuECWGEsTMTQS5ETg'.format(book_info.isbn)).read()
@@ -153,7 +154,6 @@ def book(book_id):
     description = soup.find('book').find('description')
     # Use openlibrary API tp get the image of each book
     img_url = "http://covers.openlibrary.org/b/isbn/{}-L.jpg".format(book_info.isbn)
-    print(description)
 
     return render_template('book.html', total_rate=total, user_rate=rate, rating=rating,
                            login_session=logged_user, comments=comments, description=description.text,
