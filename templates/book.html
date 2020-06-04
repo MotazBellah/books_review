@@ -24,8 +24,8 @@
             <h4>There is no description available</h4><br>
         {% endif %}
             <h4>Rating</h4><br>
-            <p>The book rating on goodreads is <strong>{{ rating }}</strong></p>
-            <p>The total rating is <strong>{{ total_rate }}</strong> {{ count }} ratings</p><br>
+            <p>The book rating on goodreads is <strong>{{ rating }}</strong> - {{ count }} ratings</p>
+            <p>The total rating is <strong>{{ total_rate }}</strong></p><br>
         {% if login_session %}
             <h5>User Rating</h5>
             <div class="rating">
