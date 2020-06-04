@@ -254,8 +254,8 @@ def book_api(isbn):
             "author": book.author,
             "year": book.year,
             "isbn": book.isbn,
-            "review_count": rate.review_count,
-            "average_score": rate.average_score
+            "review_count": count,
+            "average_score": average_score
         })
 
 
