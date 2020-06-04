@@ -229,7 +229,7 @@ def book_api(isbn):
         #                         as total_rating FROM reviews WHERE book_id = :book_id;''',
         #                        {"book_id": book.id}).fetchone()
 
-        total_rate = db.execute('''SELECT sum(review_count) as total_rating FROM reviews WHERE book_id = :book_id;''',
+        total_rate = db.execute('''SELECT sum(review_count) as total_rating, count(*) as count FROM reviews WHERE book_id = :book_id;''',
                                {"book_id": book.id}).fetchone()
 
 
