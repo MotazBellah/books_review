@@ -240,8 +240,9 @@ def book_api(isbn):
         print('|||||||||||||||||||||||||||||||')
 
         if total_rate.total_rating:
-            average_score = round(total_rate.total_rating, 2)
             count = total_rate.count
+            avg = total_rate.total_rating / count
+            average_score = round(avg, 2)
         else:
             average_score = 0
             count = 0
