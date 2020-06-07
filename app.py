@@ -161,7 +161,7 @@ def book(book_id):
                            img_url=img_url, book_title=book_info.title, book_author=book_info.author, book_id=book_id)
 
 
-@app.route('/rate-book', methods=['POST'])
+@app.route('/book-rate', methods=['POST'])
 def rate_book():
     rate = request.form['rating']
     book_id = request.form['book_id']
