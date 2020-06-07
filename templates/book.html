@@ -118,11 +118,11 @@
                         }
                     }
 
-                } 
+                }
                     // Check if the user click on one of the stars
                     div[0].addEventListener('click', function(e) {
                         console.log(div);
-                        // e.preventDefault()
+                        e.preventDefault()
                         // Get the rating and the book_id
                         var rating = parseInt(e.target.title)
                         var book_id = {{ book_id }}

@@ -116,7 +116,7 @@ def book(book_id):
         logged_user = login_session['user_id']
         user_rate = db.execute('''SELECT review_count FROM reviews WHERE book_id = :book_id and user_id = :user_id;''',
                               {"book_id": book_id, "user_id": login_session['user_id']}).fetchone()
-        if user_rate:
+        if user_rate.review_count:
             rate = user_rate.review_count
         else:
             rate = 0
