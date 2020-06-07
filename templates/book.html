@@ -131,6 +131,7 @@
                                 // on the server side let the function return jsonify({"rate": rating})
                                 var x = response['rate']
                                 var rating_array = [...Array(x).keys()]
+                                console.log(rating_array.length);
                                 for (var i = 0; i < rating_array.length; i++) {
                                     console.log(rating_array[i]);
                                     console.log(div[0].children[i]);
