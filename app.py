@@ -115,6 +115,7 @@ def book(book_id):
     print('|||||||||||||||||||')
     print(login_session['user_id'])
     print('|||||||||||||||||||')
+    rate = 0
     if 'user_id' in login_session:
         logged_user = login_session['user_id']
         user_rate = db.execute('''SELECT review_count FROM reviews WHERE book_id = :book_id and user_id = :user_id;''',
@@ -123,11 +124,8 @@ def book(book_id):
         if user_rate:
             if user_rate.review_count:
                 rate = user_rate.review_count
-            else:
-                rate = 0
     else:
         logged_user = False
-        rate = 0
 
     # get the book information to use it in the html page
     book_info = db.execute('''SELECT title, author, isbn, year FROM books WHERE id = :id;''',
