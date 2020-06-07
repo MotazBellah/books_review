@@ -121,11 +121,13 @@
                 } else {
                     // Check if the user click on one of the stars
                     div[0].addEventListener('click', function(e) {
-
-                        e.preventDefault()
+                        console.log(div);
+                        // e.preventDefault()
                         // Get the rating and the book_id
                         var rating = parseInt(e.target.title)
                         var book_id = {{ book_id }}
+                        console.log(rating);
+                        console.log(book_id);
                         // Send ajax request to the backend server with rating and book_id values
                         // and make the starts bright for the user
                         $.ajax({
