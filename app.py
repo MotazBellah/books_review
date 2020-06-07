@@ -168,7 +168,7 @@ def rate_book():
 
     # check if the user write a review or rating for this book
     user_rate = db.execute('''SELECT review_count, review_write FROM reviews WHERE book_id = :book_id and user_id = :user_id;''',
-                          {"book_id": book_id, "user_id": user_id}).fetchone()
+                          {"book_id": book_id, "user_id": login_session['user_id']}).fetchone()
     # check if the user write a review or rating for this book
     if user_rate:
         # If the user already gave rating then return and inform the user
