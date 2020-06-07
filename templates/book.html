@@ -103,58 +103,67 @@
 
         <script type="text/javascript">
             document.addEventListener('DOMContentLoaded', () => {
+                // Get the parent div that contain the stars
                 const div = document.getElementsByClassName('rate');
                 console.log(div);
-                div[0].addEventListener('click', function(e) {
+                // Check if the user has a rating values
+                const user_rating = {{ user_rate }}
+                if (user_rating) {
 
-                    // console.log(e.target.title);
-                    // console.log(div[0].children);
-                    var rating = parseInt(e.target.title)
-                    var book_id = {{ book_id }}
-                    // console.log(book_id);
-                    console.log([...Array(rating).keys()]);
+                    // Loop through the children of the div to make the stars bright
+                    for (var i = 0; i < div[0].children.length; i++) {
+                        console.log(div[0].children[i]);
+                        if (i < user_rating) {
+                            div[0].children[i].firstChild.className += ' checked';
+                        }
+                    }
 
+                } else {
+                    // Check if the user click on one of the stars
+                    div[0].addEventListener('click', function(e) {
 
+                        e.preventDefault()
+                        // Get the rating and the book_id
+                        var rating = parseInt(e.target.title)
+                        var book_id = {{ book_id }}
+                        // Send ajax request to the backend server with rating and book_id values
+                        // and make the starts bright for the user
+                        $.ajax({
+                            type: "POST",
+                            url: '/book-rate',
+                            data: {
+                                rating: rating,
+                                book_id: book_id
+                            },
+                            success: function(response)
+                                {
+                                    // check if the user already gave a rating
+                                    if ('error' in response) {
+                                        alert(response['error'])
 
-                    $.ajax({
-                        type: "POST",
-                        url: '/book-rate',
-                        data: {
-                            rating: rating,
-                            book_id: book_id
-                        },
-                        success: function(response)
-                            {
-                                // alert('HHHHHHHHHHH')
-                                // alert(response['rate'])
-                                // alert(response['book_id'])
-                                // on the server side let the function return jsonify({"rate": rating})
-                                var x = response['rate']
-                                alert(x)
-                                // var rating_array = [...Array(x).keys()]
-                                // alert(rating_array.length);
-                                // for (var i = 0; i < rating_array.length; i++) {
-                                //     console.log(rating_array[i]);
-                                //     console.log(div[0].children[i]);
-                                //     div[0].children[i].firstChild.className += ' checked';
-                                //
-                                // }
+                                    } else {
 
-                                for (var i = 0; i < div[0].children.length; i++) {
-                                    console.log(div[0].children[i]);
-                                    if (i < x) {
-                                        div[0].children[i].firstChild.className += ' checked';
+                                        // Get the value of the rating
+                                        var x = response['rate']
+                                        // Loop through the children of the div to make the stars bright
+                                        for (var i = 0; i < div[0].children.length; i++) {
+                                            console.log(div[0].children[i]);
+                                            if (i < x) {
+                                                div[0].children[i].firstChild.className += ' checked';
+                                            }
+                                        }
+
                                     }
-
-
-
+                                    //  Make sure the program out from the function
+                                    return false
                                 }
-                                return false
-                            }
-                      });
-                      return false
+                          });
+                          return false
 
-            })
+                })
+
+                }
+
 
             });
 

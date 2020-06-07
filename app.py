@@ -166,6 +166,26 @@ def rate_book():
     rate = request.form['rating']
     book_id = request.form['book_id']
 
+    # check if the user write a review or rating for this book
+    user_rate = db.execute('''SELECT review_count, review_write FROM reviews WHERE book_id = :book_id and user_id = :user_id;''',
+                          {"book_id": book_id, "user_id": user_id}).fetchone()
+    # check if the user write a review or rating for this book
+    if user_rate:
+        # If the user already gave rating then return and inform the user
+        if user_rate.review_count:
+            return jsonify({'error': 'You already rated this book'})
+        # If the user write a review for the book,
+        #  then update the table by adding the value of the rating
+        else:
+            db.execute("UPDATE reviews SET review_count = :value WHERE book_id= :book_id and user_id = :user_id;",
+                      {"value": int(rate), "user_id":login_session['user_id'], "book_id":book_id})
+    # If not, then insert the value of the rating
+    else:
+        db.execute('''INSERT INTO reviews (review_count, book_id, user_id) VALUES (:review_count, :book_id, :user_id);''',
+                  {"review_count": int(rate), "book_id": book_id, "user_id": login_session['user_id']})
+
+
+    db.commit()
     return jsonify({
         'rate': rate,
         'book_id': book_id
