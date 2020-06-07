@@ -131,12 +131,22 @@
                                 // on the server side let the function return jsonify({"rate": rating})
                                 var x = response['rate']
                                 alert(x)
-                                var rating_array = [...Array(x).keys()]
-                                alert(rating_array.length);
-                                for (var i = 0; i < rating_array.length; i++) {
-                                    console.log(rating_array[i]);
+                                // var rating_array = [...Array(x).keys()]
+                                // alert(rating_array.length);
+                                // for (var i = 0; i < rating_array.length; i++) {
+                                //     console.log(rating_array[i]);
+                                //     console.log(div[0].children[i]);
+                                //     div[0].children[i].firstChild.className += ' checked';
+                                //
+                                // }
+
+                                for (var i = 0; i < div[0].children.length; i++) {
                                     console.log(div[0].children[i]);
-                                    div[0].children[i].firstChild.className += ' checked';
+                                    if (i < x) {
+                                        div[0].children[i].firstChild.className += ' checked';
+                                    }
+
+
 
                                 }
                                 return false
