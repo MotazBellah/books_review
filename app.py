@@ -115,7 +115,7 @@ def book(book_id):
     print('|||||||||||||||||||')
     print(login_session['user_id'])
     print('|||||||||||||||||||')
-    try:
+    if 'user_id' in login_session:
         logged_user = login_session['user_id']
         user_rate = db.execute('''SELECT review_count FROM reviews WHERE book_id = :book_id and user_id = :user_id;''',
                               {"book_id": book_id, "user_id": login_session['user_id']}).fetchone()
@@ -127,7 +127,7 @@ def book(book_id):
             rate = user_rate.review_count
         else:
             rate = 0
-    except Exception as e:
+    else:
         logged_user = False
         rate = 0
 
