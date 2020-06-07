@@ -112,6 +112,7 @@ def index():
 def book(book_id):
     # If user logged in, render the rate and comment forms
     # allow the user to set the rating and write a comment
+    logged_user = True
     try:
         logged_user = login_session['user_id']
         user_rate = db.execute('''SELECT review_count FROM reviews WHERE book_id = :book_id and user_id = :user_id;''',
