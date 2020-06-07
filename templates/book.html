@@ -126,12 +126,13 @@
                         success: function(response)
                             {
                                 // alert('HHHHHHHHHHH')
-                                alert(response['rate'])
-                                alert(response['book_id'])
+                                // alert(response['rate'])
+                                // alert(response['book_id'])
                                 // on the server side let the function return jsonify({"rate": rating})
                                 var x = response['rate']
+                                alert(x)
                                 var rating_array = [...Array(x).keys()]
-                                console.log(rating_array.length);
+                                alert(rating_array.length);
                                 for (var i = 0; i < rating_array.length; i++) {
                                     console.log(rating_array[i]);
                                     console.log(div[0].children[i]);
