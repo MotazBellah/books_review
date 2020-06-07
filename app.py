@@ -123,10 +123,11 @@ def book(book_id):
         print(user_rate)
         print(user_rate.review_count)
         print('|||||||||||||||||||')
-        if user_rate.review_count:
-            rate = user_rate.review_count
-        else:
-            rate = 0
+        if user_rate:
+            if user_rate.review_count:
+                rate = user_rate.review_count
+            else:
+                rate = 0
     else:
         logged_user = False
         rate = 0
