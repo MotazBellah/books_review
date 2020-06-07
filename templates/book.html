@@ -85,6 +85,8 @@
                     <p><strong>{{ comment.name }}</strong></p>
                     <p>{{ comment.coment }}</p><br>
                 {% endfor %}
+            {% else %}
+                <h5>There are no comments yet!</h5>
             {% endif %}
 
             {% if login_session %}
