@@ -160,6 +160,17 @@ def book(book_id):
                            login_session=logged_user, comments=comments, description=description.text, isbn=book_info.isbn, year=book_info.year,
                            img_url=img_url, book_title=book_info.title, book_author=book_info.author, book_id=book_id)
 
+
+@app.route('/rate-book', methods=['POST'])
+def rate_book():
+    rate = request.form['rating']
+    book_id = request.form['book_id']
+
+    return jsonify({
+        'rate': rate,
+        'book_id': book_id
+    })
+
 # Get the book id and user id to set the rating
 @app.route("/rate/<int:user_id>/<int:book_id>")
 def rate(user_id, book_id):

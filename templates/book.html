@@ -28,7 +28,15 @@
             <p>The book rating on goodreads is <strong>{{ rating }}</strong> - {{ count }} ratings</p>
             <p>The total rating is <strong>{{ total_rate }}</strong></p><br>
         {% if login_session %}
-            <h5>User Rating</h5>
+            <h5>Rate The Book</h5>
+            <div class="rate">
+                <a><span title="1" class="fa fa-star"></span></a>
+                <a><span title="2" class="fa fa-star"></span></a>
+                <a><span title="3" class="fa fa-star"></span></a>
+                <a><span title="4" class="fa fa-star"></span></a>
+                <a><span title="5" class="fa fa-star"></span></a>
+            </div>
+
             <div class="rating">
                 {% if user_rate == 1 %}
                 <a href="{{url_for('rate', user_id=login_session, book_id = book_id, value=1)}}"><span title="n1" class="fa fa-star checked"></span></a>
@@ -96,6 +104,46 @@
         {{ super() }}
         <script type="text/javascript">
             document.addEventListener('DOMContentLoaded', () => {
+
+                const div = document.getElementsByClassName('rate');
+                console.log(div);
+                div[0].addEventListener('click', function(e) {
+
+                    console.log(e.target.title);
+                    // console.log(div[0].children);
+                    var rating = parseInt(e.target.title)
+                    var book_id = {{ book_id }}
+                    console.log(book_id);
+                    console.log([...Array(rating).keys()]);
+
+
+
+                    $.ajax({
+                        type: "POST",
+                        url: '/rate-book',
+                        data: {
+                            rating: rating,
+                            book_id: book_id
+                        },
+                        success: function(response)
+                            {
+                                alert('HHHHHHHHHHH')
+                                alert(response['rate'])
+                                alert(response['book_id'])
+                                // on the server side let the function return jsonify({"rate": rating})
+                                var x = response['rate']
+                                var rating_array = [...Array(x).keys()]
+                                for (var i = 0; i < rating_array.length; i++) {
+                                    rating_array[i]
+                                    console.log(div[0].children[i]);
+                                    div[0].children[i].firstChild.className += ' checked';
+                                }
+
+                            }
+                      });
+
+
+
 
                 const div = document.getElementsByClassName('rating');
 
