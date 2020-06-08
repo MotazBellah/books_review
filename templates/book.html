@@ -16,10 +16,10 @@
         </div>
 
         <div class="info">
-        {% if description %}
             <h2>{{ book_title }}</h2>
             <p>{{ book_author }}</p>
             <p>ISBN: {{ isbn }}, Publication year: {{ year }}</p><br>
+        {% if description %}
             <p>{{ description.replace(']]>','') }}</p><br>
         {% else %}
             <h4>There is no description available</h4><br>
