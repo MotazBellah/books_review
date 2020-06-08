@@ -242,6 +242,19 @@ def search():
         return render_template('search.html', books=books, login_session=login_session)
 
 
+# search using title, isbn or auther
+@app.route("/search-books", methods=['POST'])
+def search_books():
+    if request.method == 'POST':
+        name = request.form['name']
+        books = db.execute('''SELECT * FROM books WHERE title ILIKE '%{}%'
+                           OR isbn ILIKE '%{}%' OR author ILIKE '%{}%';'''.format(name, name, name)).fetchall()
+        print('QQQQQQQQQQQQQQQQQQQQ')
+        print(books)
+        print('QQQQQQQQQQQQQQQQQQQQ')
+        return jsonify({'books': books})
+
+
 @app.route("/api/<isbn>", methods=['GET'])
 def book_api(isbn):
     book = db.execute('''SELECT * FROM books WHERE isbn = :isbn;''',

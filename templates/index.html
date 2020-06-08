@@ -50,6 +50,23 @@
 
             $( "#searchInput" ).keyup(function() {
               console.log(search_input.value);
+              if (search_input.value) {
+
+                  $.ajax({
+                      type: "POST",
+                      url: '/search-books',
+                      data: {
+                          name: search_input.value,
+                      },
+                      success: function(response)
+                          {
+                             console.log(response['books']);
+                              //  Make sure the program out from the function
+                              return false
+                          }
+                    });
+
+              }
             });
         });
 
