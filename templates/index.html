@@ -70,6 +70,7 @@
                              console.log(response['books']);
                             if (response['books'].length > 0) {
                                 display_books.style.display = 'none';
+                                search_area.innerHTML = ''
 
                                 for (let i = 0; i < response['books'].length; i++) {
                                     let book = response['books'][i]
@@ -97,7 +98,7 @@
 
                                 }
 
-                            } 
+                            }
                             else {
                                 display_books.style.display = 'block';
                             }

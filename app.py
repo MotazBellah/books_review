@@ -256,6 +256,8 @@ def search_books():
             searched_books = [dict(book.items()) for book in books]
         else:
             searched_books = []
+        print(searched_books)
+        print('???????????????????')
         return jsonify({'books': searched_books})
 
 
