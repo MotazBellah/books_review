@@ -73,7 +73,7 @@
                                 display_books.style.display = 'block';
 
                             } else {
-                                
+
                                 if (response['books'].length > 0) {
                                     display_books.style.display = 'none';
                                     search_area.innerHTML = ''
@@ -115,6 +115,10 @@
                               return false
                           }
                     });
+
+              } else {
+                  display_books.style.display = 'block';
+                  search_area.innerHTML = '';
 
               }
             });
