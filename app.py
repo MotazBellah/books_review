@@ -33,8 +33,8 @@ login.init_app(app)
 # To avaid time errors
 @app.teardown_appcontext
 def shutdown_session(exception=None):
-    db.session.remove()
-    
+    db.remove()
+
 
 @login.user_loader
 def load_user(id):
