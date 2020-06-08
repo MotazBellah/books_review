@@ -262,7 +262,7 @@ def comment_book():
         comments = db.execute('''SELECT reviews.review_write as coment, users.email as mail, users.username as name
                               FROM reviews JOIN users ON reviews.user_id = :user_id AND
                               reviews.book_id = :book_id and review_write IS NOT NULL;''',
-                              {"book_id": book_id, "user_id": }).fetchone()
+                              {"book_id": book_id, "user_id": login_session['user_id']}).fetchone()
         print('HHHHHHHHHHH')
         print(comments)
         return jsonify({'comment': comments})
