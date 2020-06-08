@@ -265,7 +265,16 @@ def comment_book():
                               {"book_id": book_id, "user_id": login_session['user_id']}).fetchone()
         print('HHHHHHHHHHH')
         print(comments)
-        return jsonify({'comment': comments})
+        if comments:
+            # Convert the comments resut to a plain list of dicts
+            user_comment = [dict(comment.items()) for comment in comments]
+        else:
+            user_comment = []
+        print(user_comment)
+        print('???????????????????')
+        if user_comment:
+            return jsonify({'comment': user_comment})
+        return jsonify({'error': "something went wrong!"})
 
 
 # # search using title, isbn or auther
