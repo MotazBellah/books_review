@@ -42,16 +42,16 @@
             <h4>Comments</h4><br>
             {% if comments %}
                 {% for comment in comments %}
-                    <p><strong>{{ comment.name }}</strong></p>
-                    <p>{{ comment.coment }}</p><br>
+                    <p id="user_name"><strong>{{ comment.name }}</strong></p>
+                    <p id="user_comment">{{ comment.coment }}</p><br>
                 {% endfor %}
             {% else %}
                 <h5>There are no comments yet!</h5>
             {% endif %}
 
             {% if login_session %}
-                <form  action="{{url_for('comment', book_id=book_id, user_id=login_session)}}" method="post">
-                    <input type="text" class="form-control" name="name" placeholder="Write a comment">
+                <form  id="submit_comment" action="{{url_for('comment', book_id=book_id, user_id=login_session)}}" method="post">
+                    <input id='input_text' type="text" class="form-control" name="name" placeholder="Write a comment">
                     <input type="submit" class="btn btn-primary mt-2 mb-4" value="post">
                 </form>
             {% endif %}
@@ -65,6 +65,7 @@
 
         <script type="text/javascript">
             document.addEventListener('DOMContentLoaded', () => {
+                // Handle the user rating and total ratings
                 // Get the parent div that contain the stars
                 const div = document.getElementsByClassName('rate');
                 const rating_area = document.getElementsByClassName('total-rate');
@@ -121,7 +122,35 @@
                     }
                 }
 
+                // Handle the user comments
+                const user_name = document.getElementById('user_name');
+                const user_comment = document.getElementById('user_comment');
+                let input_value = document.getElementById('input_text');
+
+                $("#submit_comment").submit(function(e) {
+                    console.log(input_value.value);
+                    // stop form from submitting normally
+                    e.preventDefault();
+
+                    $.ajax({
+                        type: "POST",
+                        url: '/comment-book',
+                        data: {
+                            value: input_value.value,
+                            book_id: book_id
+                        },
+                        success: function(response)
+                            {
+                                console.log(response);
+                                //  Make sure the program out from the function
+                                return false
+                            }
+                      });
+
+                });
+
             });
+
 
         </script>
 

@@ -236,6 +236,38 @@ def comment(book_id, user_id):
         return redirect(url_for('book', book_id=book_id))
 
 
+# Get the book id and user id to write a review
+@app.route("/comment-book", methods=['POST'])
+def comment_book():
+    if request.method == 'POST':
+        # get the value from the form
+        comment = request.form['value']
+        book_id = request.form['book_id']
+        # check if the user write a review or rating for this book
+        user_rate = db.execute('''SELECT * FROM reviews WHERE book_id = :book_id and user_id = :user_id;''',
+                              {"book_id": book_id, "user_id": login_session['user_id']}).fetchone()
+        # If the user set the rating for the book,
+        # then update the table by adding the value of the review
+        if user_rate:
+            db.execute("UPDATE reviews SET review_write = :review_write WHERE book_id= :book_id and user_id = :user_id;",
+                    {"review_write": comment, "user_id":login_session['user_id'], "book_id":book_id})
+        # If not, then insert the value of the review
+        else:
+            db.execute('''INSERT INTO reviews (review_write, book_id, user_id) VALUES (:review_write, :book_id, :user_id);''',
+                  {"review_write": comment, "book_id": book_id, "user_id": login_session['user_id']})
+
+        db.commit()
+
+        # get all reviews from all users and send it to html page
+        comments = db.execute('''SELECT reviews.review_write as coment, users.email as mail, users.username as name
+                              FROM reviews JOIN users ON reviews.user_id = :user_id AND
+                              reviews.book_id = :book_id and review_write IS NOT NULL;''',
+                              {"book_id": book_id, "user_id": }).fetchone()
+        print('HHHHHHHHHHH')
+        print(comments)
+        return jsonify({'comment': comments})
+
+
 # # search using title, isbn or auther
 # @app.route("/search", methods=['GET', 'POST'])
 # def search():
