@@ -4,6 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 import bs4 as bs
 import requests
+import json
 from flask_login import LoginManager, login_user, current_user, login_required, logout_user
 # To make sure the code is correct with python 2.x and 3.x
 try:
@@ -252,7 +253,12 @@ def search_books():
         print('QQQQQQQQQQQQQQQQQQQQ')
         print(books)
         print('QQQQQQQQQQQQQQQQQQQQ')
-        return jsonify({'books': books})
+        try:
+            print(json.dumps(books))
+        except Exception as e:
+            pass 
+
+        return jsonify({'books': json.dumps(books)})
 
 
 @app.route("/api/<isbn>", methods=['GET'])
