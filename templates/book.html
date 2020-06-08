@@ -68,30 +68,19 @@
                 // Get the parent div that contain the stars
                 const div = document.getElementsByClassName('rate');
                 const rating_area = document.getElementsByClassName('total-rate');
-                console.log(rating_area);
-                console.log(rating_area[0]);
                 // Check if the user has a rating values
                 const user_rating = {{ user_rate }}
                 if (user_rating) {
 
-                    // Loop through the children of the div to make the stars bright
-                    for (var i = 0; i < div[0].children.length; i++) {
-                        // console.log(div[0].children[i]);
-                        if (i < user_rating) {
-                            div[0].children[i].firstChild.className += ' checked';
-                        }
-                    }
+                    setRating(user_rating);
 
                 }
                     // Check if the user click on one of the stars
                     div[0].addEventListener('click', function(e) {
-                        console.log(div);
                         e.preventDefault()
                         // Get the rating and the book_id
                         var rating = parseInt(e.target.title)
                         var book_id = {{ book_id }}
-                        // console.log(rating);
-                        // console.log(book_id);
                         // Send ajax request to the backend server with rating and book_id values
                         // and make the starts bright for the user
                         $.ajax({
@@ -109,18 +98,9 @@
 
                                     } else {
 
-                                        // Get the value of the rating
-                                        var x = response['rate']
-                                        // Loop through the children of the div to make the stars bright
-                                        for (var i = 0; i < div[0].children.length; i++) {
-                                            console.log(div[0].children[i]);
-                                            if (i < x) {
-                                                div[0].children[i].firstChild.className += ' checked';
-                                            }
-                                        }
+                                        setRating(response['rate'])
                                         // Change the total rating
                                         rating_area[0].textContent = response['total_rate'];
-                                        console.log(response['total_rate']);
 
                                     }
                                     //  Make sure the program out from the function
@@ -131,8 +111,15 @@
 
                 })
 
-
-
+                // function to Make the start bright according to the rating
+                function setRating(user_rating) {
+                    // Loop through the children of the div to make the stars bright
+                    for (let i = 0; i < div[0].children.length; i++) {
+                        if (i < user_rating) {
+                            div[0].children[i].firstChild.className += ' checked';
+                        }
+                    }
+                }
 
             });
 
