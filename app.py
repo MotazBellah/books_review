@@ -200,9 +200,6 @@ def rate_book():
                             as total_rating FROM reviews WHERE book_id = :book_id;''',
                            {"book_id": book_id}).fetchone()
 
-    print('QQQQQQQQQQQQQQQQQ')
-    print(total_rate)
-    print('QQQQQQQQQQQQQQQQQ')
     # if found a total rate, i.e if some user set rating, then round it to 2
     if total_rate.total_rating:
         total = round(total_rate.total_rating, 2)
@@ -239,15 +236,15 @@ def comment(book_id, user_id):
         return redirect(url_for('book', book_id=book_id))
 
 
-# search using title, isbn or auther
-@app.route("/search", methods=['GET', 'POST'])
-def search():
-    if request.method == 'POST':
-        name = request.form['name']
-        books = db.execute('''SELECT * FROM books WHERE title ILIKE '%{}%'
-                           OR isbn ILIKE '%{}%' OR author ILIKE '%{}%';'''.format(name, name, name)).fetchall()
-
-        return render_template('search.html', books=books, login_session=login_session)
+# # search using title, isbn or auther
+# @app.route("/search", methods=['GET', 'POST'])
+# def search():
+#     if request.method == 'POST':
+#         name = request.form['name']
+#         books = db.execute('''SELECT * FROM books WHERE title ILIKE '%{}%'
+#                            OR isbn ILIKE '%{}%' OR author ILIKE '%{}%';'''.format(name, name, name)).fetchall()
+#
+#         return render_template('search.html', books=books, login_session=login_session)
 
 
 # search using title, isbn or auther
