@@ -29,6 +29,13 @@ login = LoginManager()
 login.init_app(app)
 # app.config['LOGIN_DISABLED'] = False
 
+# manage a database connection
+# To avaid time errors
+@app.teardown_appcontext
+def shutdown_session(exception=None):
+    db.session.remove()
+    
+
 @login.user_loader
 def load_user(id):
     user_object = db.execute("SELECT * FROM users WHERE id = :id", {"id": int(id)}).fetchone()
@@ -248,7 +255,7 @@ def search():
 def search_books():
     if request.method == 'POST':
         name = request.form['name']
-
+        # Check if the input is valid
         if len(name) == 0 or name.isspace():
             return jsonify({'error': 'There are no books!'})
 
