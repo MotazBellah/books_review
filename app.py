@@ -258,7 +258,9 @@ def search_books():
             searched_books = []
         print(searched_books)
         print('???????????????????')
-        return jsonify({'books': searched_books})
+        if searched_books:
+            return jsonify({'books': searched_books})
+        return jsonify({'error': 'There are no books!'})
 
 
 @app.route("/api/<isbn>", methods=['GET'])

@@ -68,41 +68,47 @@
                       success: function(response)
                           {
                              console.log(response['books']);
-                            if (response['books'].length > 0) {
-                                display_books.style.display = 'none';
+                            if ('error' in response) {
                                 search_area.innerHTML = ''
+                                display_books.style.display = 'block';
 
-                                for (let i = 0; i < response['books'].length; i++) {
-                                    let book = response['books'][i]
+                            } else {
+                                
+                                if (response['books'].length > 0) {
+                                    display_books.style.display = 'none';
+                                    search_area.innerHTML = ''
 
-                                    var div = document.createElement("div");
-                                    div.setAttribute("class", "book-body m-3");
-                                    var anchor = document.createElement("a");
-                                    anchor.setAttribute("href", "/"+book.id);
-                                    var img = document.createElement("img");
-                                    img.setAttribute("class", "mb-1");
-                                    img.setAttribute("src", "http://covers.openlibrary.org/b/isbn/"+book.isbn+"-M.jpg");
-                                    var h = document.createElement("h4");
-                                    h.innerHTML = book.title
-                                    var p = document.createElement("p");
-                                    p.innerHTML = book.author
-                                    var p2 = document.createElement("p");
-                                    p2.innerHTML = "Published at " + book.year
+                                    for (let i = 0; i < response['books'].length; i++) {
+                                        let book = response['books'][i]
 
-                                   anchor.appendChild(img)
-                                   anchor.appendChild(h)
-                                   anchor.appendChild(p)
-                                   anchor.appendChild(p2)
-                                   div.appendChild(anchor)
-                                   search_area.appendChild(div)
+                                        var div = document.createElement("div");
+                                        div.setAttribute("class", "book-body m-3");
+                                        var anchor = document.createElement("a");
+                                        anchor.setAttribute("href", "/"+book.id);
+                                        var img = document.createElement("img");
+                                        img.setAttribute("class", "mb-1");
+                                        img.setAttribute("src", "http://covers.openlibrary.org/b/isbn/"+book.isbn+"-M.jpg");
+                                        var h = document.createElement("h4");
+                                        h.innerHTML = book.title
+                                        var p = document.createElement("p");
+                                        p.innerHTML = book.author
+                                        var p2 = document.createElement("p");
+                                        p2.innerHTML = "Published at " + book.year
+
+                                       anchor.appendChild(img)
+                                       anchor.appendChild(h)
+                                       anchor.appendChild(p)
+                                       anchor.appendChild(p2)
+                                       div.appendChild(anchor)
+                                       search_area.appendChild(div)
+
+                                    }
 
                                 }
-
+                                else {
+                                    display_books.style.display = 'block';
+                                }
                             }
-                            else {
-                                display_books.style.display = 'block';
-                            }
-
 
 
                               //  Make sure the program out from the function
