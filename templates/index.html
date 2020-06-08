@@ -13,7 +13,9 @@
 
     {% if login_session %}
         <div class="search mb-3 mr-3">
-            <input id="searchInput" type="text" name="name" placeholder="Search for books by title, author or ISBN number">
+            <form>
+                <input id="searchInput" type="text" name="name" placeholder="Search for books by title, author or ISBN number">
+            </form>
         </div>
     {% endif %}
 
