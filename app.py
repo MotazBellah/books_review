@@ -253,12 +253,12 @@ def search_books():
         print('QQQQQQQQQQQQQQQQQQQQ')
         print(books)
         print('QQQQQQQQQQQQQQQQQQQQ')
-        try:
-            print(json.dumps(books))
-        except Exception as e:
-            pass 
+        searched_books = [dict(book.items()) for book in books]
+        print('QQQQQQQQQQQQQQQQQQQQ')
+        print(searched_books)
+        print('QQQQQQQQQQQQQQQQQQQQ')
 
-        return jsonify({'books': json.dumps(books)})
+        return jsonify({'books': searched_books})
 
 
 @app.route("/api/<isbn>", methods=['GET'])
