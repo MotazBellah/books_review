@@ -43,11 +43,14 @@
 
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', () => {
-            const search_input = document.querySelector('#searchInput')
-            search_input.addEventListener('change', function() {
-                alert('Changed')
+            var search_input = document.querySelector('#searchInput')
+            // search_input.addEventListener('change', function() {
+            //     alert('Changed')
+            // })
 
-            })
+            $( "#searchInput" ).keyup(function() {
+              console.log(search_input.value);
+            });
         });
 
 
