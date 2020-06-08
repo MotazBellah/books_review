@@ -50,6 +50,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             var search_input = document.querySelector('#searchInput')
             var search_area = document.querySelector('#search-area')
+            var display_books = document.querySelector('#books')
             // search_input.addEventListener('change', function() {
             //     alert('Changed')
             // })
@@ -67,6 +68,7 @@
                       success: function(response)
                           {
                              console.log(response['books']);
+                             display_books.innerHTML = ''
                             for (let i = 0; i < response['books'].length; i++) {
                                 let book = response['books'][i]
 
