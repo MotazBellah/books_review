@@ -26,7 +26,7 @@
         {% endif %}
             <h4>Rating</h4><br>
             <p>The book rating on goodreads is <strong>{{ rating }}</strong> - {{ count }} ratings</p>
-            <p>The total rating is <strong>{{ total_rate }}</strong></p><br>
+            <p>The total rating is <strong class="total-rate">{{ total_rate }}</strong></p><br>
         {% if login_session %}
             <h5>Rate The Book</h5>
             <div class="rate">
@@ -67,6 +67,7 @@
             document.addEventListener('DOMContentLoaded', () => {
                 // Get the parent div that contain the stars
                 const div = document.getElementsByClassName('rate');
+                const rating_area = document.getElementsByClassName('total-rate');
                 console.log(div);
                 // Check if the user has a rating values
                 const user_rating = {{ user_rate }}
@@ -116,6 +117,8 @@
                                                 div[0].children[i].firstChild.className += ' checked';
                                             }
                                         }
+                                        // Change the total rating
+                                        rating_area[0].textContent = response['total_rate'];
 
                                     }
                                     //  Make sure the program out from the function

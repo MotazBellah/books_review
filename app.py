@@ -112,9 +112,6 @@ def index():
 def book(book_id):
     # If user logged in, render the rate and comment forms
     # allow the user to set the rating and write a comment
-    print('|||||||||||||||||||')
-    print(login_session['user_id'])
-    print('|||||||||||||||||||')
     rate = 0
     if 'user_id' in login_session:
         logged_user = login_session['user_id']
@@ -189,9 +186,21 @@ def rate_book():
 
 
     db.commit()
+
+    # calculate the total rate for each book
+    total_rate = db.execute('''SELECT CAST (sum(review_count) as DOUBLE PRECISION) / CAST(count(id) as DOUBLE PRECISION)
+                            as total_rating FROM reviews WHERE book_id = :book_id;''',
+                           {"book_id": book_id}).fetchone()
+    # if found a total rate, i.e if some user set rating, then round it to 2
+    if total_rate.total_rating:
+        total = round(total_rate.total_rating, 2)
+    else:
+        total = 0
+
     return jsonify({
         'rate': rate,
-        'book_id': book_id
+        'book_id': book_id,
+        'total_rate': total_rate
     })
 
 
