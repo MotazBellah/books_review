@@ -248,6 +248,10 @@ def search():
 def search_books():
     if request.method == 'POST':
         name = request.form['name']
+
+        if len(name) == 0 or name.isspace():
+            return jsonify({'error': 'There are no books!'})
+
         books = db.execute('''SELECT * FROM books WHERE title ILIKE '%{}%'
                            OR isbn ILIKE '%{}%' OR author ILIKE '%{}%';'''.format(name, name, name)).fetchall()
 
