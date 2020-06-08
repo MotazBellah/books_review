@@ -250,14 +250,12 @@ def search_books():
         name = request.form['name']
         books = db.execute('''SELECT * FROM books WHERE title ILIKE '%{}%'
                            OR isbn ILIKE '%{}%' OR author ILIKE '%{}%';'''.format(name, name, name)).fetchall()
-        print('QQQQQQQQQQQQQQQQQQQQ')
-        print(books)
-        print('QQQQQQQQQQQQQQQQQQQQ')
-        searched_books = [dict(book.items()) for book in books]
-        print('QQQQQQQQQQQQQQQQQQQQ')
-        print(searched_books)
-        print('QQQQQQQQQQQQQQQQQQQQ')
 
+        if books:
+            # Convert the books resut to a plain list of dicts
+            searched_books = [dict(book.items()) for book in books]
+        else:
+            searched_books = []
         return jsonify({'books': searched_books})
 
 

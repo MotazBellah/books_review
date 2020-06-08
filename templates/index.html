@@ -20,19 +20,24 @@
         </div>
     {% endif %}
 
-        {% for book in books %}
+        <div id="search-area"></div>
+
+        <div id="books">
+            {% for book in books %}
 
 
-                <div class="book-body m-3">
-                    <a href="{{url_for('book', book_id = book.id)}}">
-                        <img class="mb-1" src="http://covers.openlibrary.org/b/isbn/{{ book.isbn }}-M.jpg" alt="">
-                        <h4>{{ book.title }}</h4>
-                        <p>{{ book.author }}</p>
-                        <p>Published at {{ book.year }}</p></a>
-                </div>
+                    <div class="book-body m-3">
+                        <a href="{{url_for('book', book_id = book.id)}}">
+                            <img class="mb-1" src="http://covers.openlibrary.org/b/isbn/{{ book.isbn }}-M.jpg" alt="">
+                            <h4>{{ book.title }}</h4>
+                            <p>{{ book.author }}</p>
+                            <p>Published at {{ book.year }}</p></a>
+                    </div>
 
 
-        {% endfor %}
+            {% endfor %}
+        </div>
+
 
     {% else %}
 
@@ -44,6 +49,7 @@
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', () => {
             var search_input = document.querySelector('#searchInput')
+            var search_area = document.querySelector('#search-area')
             // search_input.addEventListener('change', function() {
             //     alert('Changed')
             // })
@@ -61,6 +67,33 @@
                       success: function(response)
                           {
                              console.log(response['books']);
+                            for (let i = 0; i < response['books'].length; i++) {
+                                let book = response['books'][i]
+
+                                var div = document.createElement("div");
+                                div.setAttribute("class", "book-body m-3");
+                                var anchor = document.createElement("a");
+                                div.setAttribute("href", "/"+book.id);
+                                var img = document.createElement("img");
+                                img.setAttribute("class", "mb-1");
+                                img.setAttribute("src", "http://covers.openlibrary.org/b/isbn/"+book.isbn"+"-M.jpg");
+                                var h = document.createElement("h4");
+                                h.innerHTML = book.title
+                                var p = document.createElement("p");
+                                p.innerHTML = book.author
+                                var p2 = document.createElement("p");
+                                p2.innerHTML = "Published at " + book.year
+
+                               anchor.appendChild(img)
+                               anchor.appendChild(h)
+                               anchor.appendChild(p)
+                               anchor.appendChild(p2)
+                               div.appendChild(anchor)
+                               search_area.appendChild(div)
+
+                            }
+
+
                               //  Make sure the program out from the function
                               return false
                           }
