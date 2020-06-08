@@ -14,7 +14,7 @@
     {% if login_session %}
         <div class="search mb-3 mr-3">
             <form action="{{url_for('search')}}" method="post">
-                <input type="text" name="name" placeholder="Search for books by title, author or ISBN number">
+                <input id="searchInput" type="text" name="name" placeholder="Search for books by title, author or ISBN number">
                 <input type="submit" class="btn btn-primary" value="Search">
             </form>
         </div>
@@ -40,5 +40,18 @@
             <h4>There are no books available</h4>
 
     {% endif %}
+
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', () => {
+            const search_input = document.querySelector('#searchInput')
+            search_input.addEventListener('change', function() {
+                alert('Changed')
+
+            })
+        });
+
+
+    </script>
+
 
 {% endblock %}
