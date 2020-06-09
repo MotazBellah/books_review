@@ -272,9 +272,11 @@ def comment_book():
         #     user_comment = []
         # print(user_comment)
         # print('???????????????????')
-        # if user_comment:
-        return jsonify({'comment': comments.coment})
-        # return jsonify({'error': "something went wrong!"})
+        if comments:
+            return jsonify({'comment': comments.coment,
+                            'name': comments.name,
+                            })
+        return jsonify({'error': "something went wrong!"})
 
 
 # # search using title, isbn or auther
