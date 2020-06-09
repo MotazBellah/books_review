@@ -150,17 +150,28 @@ def book(book_id):
     else:
         total = 0
 
-    res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "uXFuECWGEsTMTQS5ETg", "isbns": "{}".format(book_info.isbn)})
-    goodreads_rating = res.json()['books'][0]["average_rating"]
-    goodreads_rating_count = res.json()['books'][0]["ratings_count"]
+    try:
+        # Use the goodreads API to get the average_rating and no of ratings
+        res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "uXFuECWGEsTMTQS5ETg", "isbns": "{}".format(book_info.isbn)})
+        goodreads_rating = res.json()['books'][0]["average_rating"]
+        goodreads_rating_count = res.json()['books'][0]["ratings_count"]
+    except Exception as e:
+        print(e)
+        goodreads_rating = 'N/A'
+        goodreads_rating_count = 'N/A'
 
-    # send get request to get the information of each book from goodreads API
-    # The response in XML format
-    source = urlopen('https://www.goodreads.com/book/isbn/{}?key=uXFuECWGEsTMTQS5ETg'.format(book_info.isbn)).read()
-    # Use BeautifulSoup to parse the xml response
-    soup = bs.BeautifulSoup(source, 'lxml')
-    # get the description
-    description = soup.find('book').find('description')
+    try:
+        # send get request to get the information of each book from goodreads API
+        # The response in XML format
+        source = urlopen('https://www.goodreads.com/book/isbn/{}?key=uXFuECWGEsTMTQS5ETg'.format(book_info.isbn)).read()
+        # Use BeautifulSoup to parse the xml response
+        soup = bs.BeautifulSoup(source, 'lxml')
+        # get the description
+        description = soup.find('book').find('description')
+    except Exception as e:
+        print(e)
+        description = "There is no description"
+
     # Use openlibrary API tp get the image of each book
     img_url = "http://covers.openlibrary.org/b/isbn/{}-L.jpg".format(book_info.isbn)
 
