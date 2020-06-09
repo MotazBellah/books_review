@@ -243,6 +243,10 @@ def comment_book():
         # get the value from the form
         comment = request.form['value']
         book_id = request.form['book_id']
+
+        user = db.execute('''SELECT * FROM users WHERE user_id = :user_id;''',
+                              {"id": login_session['user_id']}).fetchone()
+                              
         # check if the user write a review or rating for this book
         user_rate = db.execute('''SELECT * FROM reviews WHERE book_id = :book_id and user_id = :user_id;''',
                               {"book_id": book_id, "user_id": login_session['user_id']}).fetchone()
@@ -264,8 +268,7 @@ def comment_book():
                               reviews.book_id = :book_id and review_write IS NOT NULL;''',
                               {"book_id": book_id, "user_id": login_session['user_id']}).fetchone()
 
-        user = db.execute('''SELECT * FROM users WHERE user_id = :user_id;''',
-                              {"user_id": login_session['user_id']}).fetchone()
+
         print('HHHHHHHHHHH')
         print(comments)
         print(user)
