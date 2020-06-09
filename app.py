@@ -186,11 +186,11 @@ def rate_book():
         #  then update the table by adding the value of the rating
         else:
             db.execute("UPDATE reviews SET review_count = :value WHERE book_id= :book_id and user_id = :user_id;",
-                      {"value": int(rate), "user_id":login_session['user_id'], "book_id":book_id})
+                      {"value": rate, "user_id":login_session['user_id'], "book_id":book_id})
     # If not, then insert the value of the rating
     else:
         db.execute('''INSERT INTO reviews (review_count, book_id, user_id) VALUES (:review_count, :book_id, :user_id);''',
-                  {"review_count": int(rate), "book_id": book_id, "user_id": login_session['user_id']})
+                  {"review_count": rate, "book_id": book_id, "user_id": login_session['user_id']})
 
 
     db.commit()
@@ -263,14 +263,14 @@ def comment_book():
         db.commit()
 
         # get all reviews from all users and send it to html page
-        comments = db.execute('''SELECT reviews.review_write as coment, users.email as mail, users.username as name
-                              FROM reviews JOIN users ON reviews.user_id = :user_id AND
-                              reviews.book_id = :book_id and review_write IS NOT NULL;''',
-                              {"book_id": book_id, "user_id": login_session['user_id']}).fetchone()
-
-
-        print('HHHHHHHHHHH')
-        print(comments)
+        # comments = db.execute('''SELECT reviews.review_write as coment, users.email as mail, users.username as name
+        #                       FROM reviews JOIN users ON reviews.user_id = :user_id AND
+        #                       reviews.book_id = :book_id and review_write IS NOT NULL;''',
+        #                       {"book_id": book_id, "user_id": login_session['user_id']}).fetchone()
+        #
+        #
+        # print('HHHHHHHHHHH')
+        # print(comments)
         print(user)
         # if comments:
         #     # Convert the comments resut to a plain list of dicts
@@ -281,7 +281,7 @@ def comment_book():
         # print('???????????????????')
         if comments:
             return jsonify({'comment': comments.coment,
-                            'name': comments.name,
+                            'user': comments.username,
                             })
         return jsonify({'error': "something went wrong!"})
 
