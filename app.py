@@ -280,7 +280,7 @@ def comment_book():
         # print(user_comment)
         # print('???????????????????')
         if user:
-            return jsonify({'comment': comments.coment,
+            return jsonify({'comment': comment,
                             'user': user.username,
                             })
         return jsonify({'error': "something went wrong!"})
