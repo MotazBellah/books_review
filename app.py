@@ -262,19 +262,19 @@ def comment_book():
         comments = db.execute('''SELECT reviews.review_write as coment, users.email as mail, users.username as name
                               FROM reviews JOIN users ON reviews.user_id = :user_id AND
                               reviews.book_id = :book_id and review_write IS NOT NULL;''',
-                              {"book_id": book_id, "user_id": login_session['user_id']}).fetchall()
+                              {"book_id": book_id, "user_id": login_session['user_id']}).fetchone()
         print('HHHHHHHHHHH')
         print(comments)
-        if comments:
-            # Convert the comments resut to a plain list of dicts
-            user_comment = [dict(comment.items()) for comment in comments]
-        else:
-            user_comment = []
-        print(user_comment)
-        print('???????????????????')
-        if user_comment:
-            return jsonify({'comment': user_comment})
-        return jsonify({'error': "something went wrong!"})
+        # if comments:
+        #     # Convert the comments resut to a plain list of dicts
+        #     user_comment = [dict(comment.items()) for comment in comments]
+        # else:
+        #     user_comment = []
+        # print(user_comment)
+        # print('???????????????????')
+        # if user_comment:
+        return jsonify({'comment': comments.coment})
+        # return jsonify({'error': "something went wrong!"})
 
 
 # # search using title, isbn or auther
