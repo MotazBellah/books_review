@@ -244,9 +244,9 @@ def comment_book():
         comment = request.form['value']
         book_id = request.form['book_id']
 
-        user = db.execute('''SELECT * FROM users WHERE user_id = :user_id;''',
+        user = db.execute('''SELECT * FROM users WHERE id = :id;''',
                               {"id": login_session['user_id']}).fetchone()
-                              
+
         # check if the user write a review or rating for this book
         user_rate = db.execute('''SELECT * FROM reviews WHERE book_id = :book_id and user_id = :user_id;''',
                               {"book_id": book_id, "user_id": login_session['user_id']}).fetchone()
