@@ -143,24 +143,30 @@
                         },
                         success: function(response)
                             {
-                                console.log(response['user']);
-                                console.log(response['comment']);
-                                //  Create a strong element that contain the user name
-                                var strong = document.createElement("strong");
-                                strong.innerHTML = response['user']
-                                // Create a prograph tag
-                                var p = document.createElement("p");
-                                p.style.color = "gray";
-                                p.appendChild(strong)
-                                //  Create prograph tage, hold the comment
-                                var p2 = document.createElement("p");
-                                p2.innerHTML = response['comment']
-                                // create a line breaker
-                                var br = document.createElement("br");
+                                if ('error' in response) {
+                                    alert(response['error'])
 
-                                coment_div.appendChild(p)
-                                coment_div.appendChild(p2)
-                                coment_div.appendChild(br)
+                                } else {
+
+                                    //  Create a strong element that contain the user name
+                                    var strong = document.createElement("strong");
+                                    strong.innerHTML = response['user']
+                                    // Create a prograph tag
+                                    var p = document.createElement("p");
+                                    p.style.color = "gray";
+                                    p.appendChild(strong)
+                                    //  Create prograph tage, hold the comment
+                                    var p2 = document.createElement("p");
+                                    p2.innerHTML = response['comment']
+                                    // create a line breaker
+                                    var br = document.createElement("br");
+
+                                    coment_div.appendChild(p)
+                                    coment_div.appendChild(p2)
+                                    coment_div.appendChild(br)
+
+                                }
+
 
                                 //  Make sure the program out from the function
                                 return false

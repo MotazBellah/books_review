@@ -214,39 +214,16 @@ def rate_book():
 
 
 # Get the book id and user id to write a review
-@app.route("/comment/<int:user_id>/<int:book_id>", methods=['GET', 'POST'])
-def comment(book_id, user_id):
-    if request.method == 'POST':
-        # get the value from the form
-        comment = request.form['name']
-        # check if the user write a review or rating for this book
-        user_rate = db.execute('''SELECT * FROM reviews WHERE book_id = :book_id and user_id = :user_id;''',
-                              {"book_id": book_id, "user_id": user_id}).fetchone()
-        # If the user set the rating for the book,
-        # then update the table by adding the value of the review
-        if user_rate:
-            db.execute("UPDATE reviews SET review_write = :review_write WHERE book_id= :book_id and user_id = :user_id;",
-                    {"review_write": comment, "user_id":user_id, "book_id":book_id})
-        # If not, then insert the value of the review
-        else:
-            db.execute('''INSERT INTO reviews (review_write, book_id, user_id) VALUES (:review_write, :book_id, :user_id);''',
-                  {"review_write": comment, "book_id": book_id, "user_id": login_session['user_id']})
-
-        db.commit()
-        return redirect(url_for('book', book_id=book_id))
-
-
-# Get the book id and user id to write a review
 @app.route("/comment-book", methods=['POST'])
 def comment_book():
     if request.method == 'POST':
         # get the value from the form
         comment = request.form['value']
         book_id = request.form['book_id']
-
+        # Check if the input is valid
         if len(comment) == 0 or comment.isspace():
             return jsonify({'error': "something went wrong!"})
-
+        # Get the user info
         user = db.execute('''SELECT * FROM users WHERE id = :id;''',
                               {"id": login_session['user_id']}).fetchone()
 
@@ -256,8 +233,12 @@ def comment_book():
         # If the user set the rating for the book,
         # then update the table by adding the value of the review
         if user_rate:
-            db.execute("UPDATE reviews SET review_write = :review_write WHERE book_id= :book_id and user_id = :user_id;",
-                    {"review_write": comment, "user_id":login_session['user_id'], "book_id":book_id})
+            # If the user already alredy reviewed the book inform him
+            if user_rate.review_write:
+                return jsonify({'error': 'You already reviewed this book'})
+            else:
+                db.execute("UPDATE reviews SET review_write = :review_write WHERE book_id= :book_id and user_id = :user_id;",
+                        {"review_write": comment, "user_id":login_session['user_id'], "book_id":book_id})
         # If not, then insert the value of the review
         else:
             db.execute('''INSERT INTO reviews (review_write, book_id, user_id) VALUES (:review_write, :book_id, :user_id);''',
@@ -270,17 +251,6 @@ def comment_book():
                             'user': user.username,
                             })
         return jsonify({'error': "something went wrong!"})
-
-
-# # search using title, isbn or auther
-# @app.route("/search", methods=['GET', 'POST'])
-# def search():
-#     if request.method == 'POST':
-#         name = request.form['name']
-#         books = db.execute('''SELECT * FROM books WHERE title ILIKE '%{}%'
-#                            OR isbn ILIKE '%{}%' OR author ILIKE '%{}%';'''.format(name, name, name)).fetchall()
-#
-#         return render_template('search.html', books=books, login_session=login_session)
 
 
 # search using title, isbn or auther
@@ -300,8 +270,7 @@ def search_books():
             searched_books = [dict(book.items()) for book in books]
         else:
             searched_books = []
-        # print(searched_books)
-        # print('???????????????????')
+
         if searched_books:
             return jsonify({'books': searched_books})
         return jsonify({'error': 'There are no books!'})
