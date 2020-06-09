@@ -40,24 +40,24 @@
 
         <div class="comments">
             <h4>Comments</h4><br>
-            <div id="comment_area">
-            {% if comments %}
-                {% for comment in comments %}
-                    <p><strong>{{ comment.name }}</strong></p>
-                    <p>{{ comment.coment }}</p><br>
-                {% endfor %}
+            <div class="comment_area">
+                {% if comments %}
+                    {% for comment in comments %}
+                        <p><strong>{{ comment.name }}</strong></p>
+                        <p>{{ comment.coment }}</p><br>
+                    {% endfor %}
+                {% else %}
+                    <h5>There are no comments yet!</h5>
+                {% endif %}
             </div>
-
-            {% else %}
-                <h5>There are no comments yet!</h5>
-            {% endif %}
-
-            {% if login_session %}
-                <form  id="submit_comment">
-                    <input id='input_text' type="text" class="form-control" name="name" placeholder="Write a comment">
-                    <input type="submit" class="btn btn-primary mt-2 mb-4" value="post">
-                </form>
-            {% endif %}
+            <div class="user_commenting">
+                {% if login_session %}
+                    <form  id="submit_comment">
+                        <input id='input_text' type="text" class="form-control" name="name" placeholder="Write a comment">
+                        <input type="submit" class="btn btn-primary mt-2 mb-4" value="post">
+                    </form>
+                {% endif %}
+            </div>
         </div>
 
         </div>
@@ -126,7 +126,7 @@
                 }
 
                 // Handle the user comments
-                const coment_div = document.getElementById('comment_area');
+                const coment_div = document.getElementsByClassName('comment_area')[0];
                 let input_value = document.getElementById('input_text');
 
                 $("#submit_comment").submit(function(e) {
