@@ -40,8 +40,8 @@
 
         <div class="comments">
             <h4>Comments</h4><br>
-            {% if comments %}
             <div id="comment_area">
+            {% if comments %}
                 {% for comment in comments %}
                     <p><strong>{{ comment.name }}</strong></p>
                     <p>{{ comment.coment }}</p><br>
@@ -148,13 +148,12 @@
                                 var strong = document.createElement("strong");
                                 strong.innerHTML = response['user']
                                 var p = document.createElement("p");
-                                p.innerHTML = response['user']
-                                // p.appendChild(strong)
+                                p.appendChild(strong)
 
                                 var p2 = document.createElement("p");
                                 p2.innerHTML = response['comment']
 
-                                coment_div.appendChild(p)
+                                coment_div.appendChild(strong)
                                 coment_div.appendChild(p2)
 
                                 //  Make sure the program out from the function
