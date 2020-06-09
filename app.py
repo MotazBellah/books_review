@@ -244,6 +244,9 @@ def comment_book():
         comment = request.form['value']
         book_id = request.form['book_id']
 
+        if len(comment) == 0 or comment.isspace():
+            return jsonify({'error': "something went wrong!"})
+
         user = db.execute('''SELECT * FROM users WHERE id = :id;''',
                               {"id": login_session['user_id']}).fetchone()
 
@@ -262,23 +265,6 @@ def comment_book():
 
         db.commit()
 
-        # get all reviews from all users and send it to html page
-        # comments = db.execute('''SELECT reviews.review_write as coment, users.email as mail, users.username as name
-        #                       FROM reviews JOIN users ON reviews.user_id = :user_id AND
-        #                       reviews.book_id = :book_id and review_write IS NOT NULL;''',
-        #                       {"book_id": book_id, "user_id": login_session['user_id']}).fetchone()
-        #
-        #
-        # print('HHHHHHHHHHH')
-        # print(comments)
-        print(user)
-        # if comments:
-        #     # Convert the comments resut to a plain list of dicts
-        #     user_comment = [dict(comment.items()) for comment in comments]
-        # else:
-        #     user_comment = []
-        # print(user_comment)
-        # print('???????????????????')
         if user:
             return jsonify({'comment': comment,
                             'user': user.username,

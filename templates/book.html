@@ -41,10 +41,13 @@
         <div class="comments">
             <h4>Comments</h4><br>
             {% if comments %}
+            <div id="comment_area">
                 {% for comment in comments %}
-                    <p id="user_name"><strong>{{ comment.name }}</strong></p>
-                    <p id="user_comment">{{ comment.coment }}</p><br>
+                    <p><strong>{{ comment.name }}</strong></p>
+                    <p>{{ comment.coment }}</p><br>
                 {% endfor %}
+            </div>
+
             {% else %}
                 <h5>There are no comments yet!</h5>
             {% endif %}
@@ -123,8 +126,7 @@
                 }
 
                 // Handle the user comments
-                const user_name = document.getElementById('user_name');
-                const user_comment = document.getElementById('user_comment');
+                const coment_div = document.getElementById('comment_area');
                 let input_value = document.getElementById('input_text');
 
                 $("#submit_comment").submit(function(e) {
@@ -142,6 +144,17 @@
                         success: function(response)
                             {
                                 console.log(response);
+                                var strong = document.createElement("strong");
+                                strong.innerHTML = response['user']
+                                var p = document.createElement("p");
+                                p.appendChild(strong)
+
+                                var p2 = document.createElement("p");
+                                p2.innerHTML = response['comment']
+
+                                coment_div.appendChild(p)
+                                coment_div.appendChild(p2)
+
                                 //  Make sure the program out from the function
                                 return false
                             }
