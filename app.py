@@ -263,8 +263,12 @@ def comment_book():
                               FROM reviews JOIN users ON reviews.user_id = :user_id AND
                               reviews.book_id = :book_id and review_write IS NOT NULL;''',
                               {"book_id": book_id, "user_id": login_session['user_id']}).fetchone()
+
+        user = db.execute('''SELECT * FROM users WHERE user_id = :user_id;''',
+                              {"user_id": login_session['user_id']}).fetchone()
         print('HHHHHHHHHHH')
         print(comments)
+        print(user)
         # if comments:
         #     # Convert the comments resut to a plain list of dicts
         #     user_comment = [dict(comment.items()) for comment in comments]
