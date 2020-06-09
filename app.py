@@ -5,6 +5,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 import bs4 as bs
 import requests
 import json
+import random
 from flask_login import LoginManager, login_user, current_user, login_required, logout_user
 # To make sure the code is correct with python 2.x and 3.x
 try:
@@ -106,7 +107,8 @@ def logout():
 # Make suer if the user is logged in to display the search bar
 @app.route("/")
 def index():
-    books = db.execute("SELECT * FROM books limit 20 offset 2").fetchall()
+    rand = random.randint(2, 2000)
+    books = db.execute("SELECT * FROM books limit 20 offset %s" % rand).fetchall()
     try:
         logged_user = login_session['user_id']
     except Exception as e:
