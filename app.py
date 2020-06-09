@@ -108,7 +108,7 @@ def logout():
 @app.route("/")
 def index():
     rand = random.randint(2, 2000)
-    books = db.execute("SELECT * FROM books limit 20 offset %s" % rand).fetchall()
+    books = db.execute("SELECT * FROM books limit 15 offset %s" % rand).fetchall()
     try:
         logged_user = login_session['user_id']
     except Exception as e:
