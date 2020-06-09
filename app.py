@@ -279,9 +279,9 @@ def comment_book():
         #     user_comment = []
         # print(user_comment)
         # print('???????????????????')
-        if comments:
+        if user:
             return jsonify({'comment': comments.coment,
-                            'user': comments.username,
+                            'user': user.username,
                             })
         return jsonify({'error': "something went wrong!"})
 
@@ -314,8 +314,8 @@ def search_books():
             searched_books = [dict(book.items()) for book in books]
         else:
             searched_books = []
-        print(searched_books)
-        print('???????????????????')
+        # print(searched_books)
+        # print('???????????????????')
         if searched_books:
             return jsonify({'books': searched_books})
         return jsonify({'error': 'There are no books!'})
