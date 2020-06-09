@@ -291,19 +291,22 @@ def search_books():
 
 @app.route("/api/<isbn>", methods=['GET'])
 def book_api(isbn):
+    # Get all the info about the book from DB
     book = db.execute('''SELECT * FROM books WHERE isbn = :isbn;''',
                      {"isbn": isbn}).fetchone()
+    # If found, get the all rating that related to that book
     if book:
         total_rate = db.execute('''SELECT sum(review_count) as total_rating, count(*) as count FROM reviews WHERE book_id = :book_id;''',
                                {"book_id": book.id}).fetchone()
-
-        if total_rate.total_rating:
-            count = total_rate.count
-            avg = total_rate.total_rating / count
-            average_score = round(avg, 2)
-        else:
-            average_score = 0
-            count = 0
+        # Define average_score and count
+        # Update them in case if total rate is found
+        average_score = 0
+        count = 0
+        if total_rate:
+            if total_rate.total_rating:
+                count = total_rate.count
+                avg = total_rate.total_rating / count
+                average_score = round(avg, 2)
 
         return jsonify({
                 "title": book.title,
