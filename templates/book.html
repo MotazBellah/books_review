@@ -143,16 +143,18 @@
                         },
                         success: function(response)
                             {
-                                console.log(response);
+                                console.log(response['user']);
+                                console.log(response['comment']);
                                 var strong = document.createElement("strong");
                                 strong.innerHTML = response['user']
                                 var p = document.createElement("p");
-                                p.appendChild(strong)
+                                p.innerHTML = response['user']
+                                // p.appendChild(strong)
 
                                 var p2 = document.createElement("p");
                                 p2.innerHTML = response['comment']
 
-                                coment_div.appendChild(strong)
+                                coment_div.appendChild(p)
                                 coment_div.appendChild(p2)
 
                                 //  Make sure the program out from the function
