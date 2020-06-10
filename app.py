@@ -187,6 +187,11 @@ def rate_book():
     rate = request.form['rating']
     book_id = request.form['book_id']
 
+    print("///////////////")
+    print(rate)
+    print(type(rate))
+    print("///////////////")
+
     # check if the user write a review or rating for this book
     user_rate = db.execute('''SELECT review_count, review_write FROM reviews WHERE book_id = :book_id and user_id = :user_id;''',
                           {"book_id": book_id, "user_id": login_session['user_id']}).fetchone()
