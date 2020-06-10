@@ -1,3 +1,4 @@
+import os
 from flask import Flask, session, render_template, request, redirect, url_for, jsonify
 from flask import session as login_session
 from sqlalchemy import create_engine
@@ -16,13 +17,13 @@ except ImportError:
 from wtform_fields import *
 
 app = Flask(__name__)
-app.secret_key = 'super_secret_key'
-app.config['WTF_CSRF_SECRET_KEY'] = "b'f\xfa\x8b{X\x8b\x9eM\x83l\x19\xad\x84\x08\xaa"
+app.secret_key = os.environ.get('APP_SECRET_KEY')
+app.config['WTF_CSRF_SECRET_KEY'] = os.environ.get('WTF_CSRF_SECRET_KEY')
 
 
 # Set up database
-DATABASE_URL = 'postgres://bcuchlesrjetnx:3a811885019d2cedb2a4c32bf93ee63d4ce51e6a844a1818a3d5f585c8c791c2@ec2-54-243-239-199.compute-1.amazonaws.com:5432/d5p4vvbq5jskke'
-engine = create_engine(DATABASE_URL)
+# DATABASE_URL = 'postgres://bcuchlesrjetnx:3a811885019d2cedb2a4c32bf93ee63d4ce51e6a844a1818a3d5f585c8c791c2@ec2-54-243-239-199.compute-1.amazonaws.com:5432/d5p4vvbq5jskke'
+engine = create_engine(os.environ.get('DATABASE_URL'))
 db = scoped_session(sessionmaker(bind=engine))
 
 # configure flask_login
