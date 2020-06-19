@@ -61,12 +61,12 @@ Registered users will have the ability to search for books, leave reviews and ra
 ## Clone/Run app
 ````
 # Clone repo
-$ git clone https://github.com/MotazBellah/cs40p1
+$ git clone https://github.com/MotazBellah/books_review
 
 # Install all dependencies
 $ pip install -r requirements.txt
 
 # Run
-$ python application.py
+$ python app.py
 
 # Go to 127.0.0.1:5000 on your web browser.
