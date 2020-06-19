@@ -1,5 +1,7 @@
 # Books Review Website
 
+http://bo0ks-review.herokuapp.com/
+
 This website has a list of books and provide some information about the books using the goodreads API as well as a user registration and authentication system.
 Registered users will have the ability to search for books, leave reviews and rate for individual books
 
@@ -8,7 +10,17 @@ Registered users will have the ability to search for books, leave reviews and ra
 - This project is written in python 3.
 - Use Flask framework.
 - PostgreSQL for database
-- Use Bootstrap and CSS in front-end
+- Use Bootstrap, CSS and JS in front-end
+
+## Application Features
+
+- Registering users
+- Logging users in and out
+- Allowing users to search a database of 5000 books (by the author, title or ISBN)
+- Showing relevant information and reviews of the selected book
+- Allowing users to leave reviews and ratings of their own
+- Connecting to Goodreads API to show further information
+- Returning data in a JSON format if the user reaches the "api/<isbn>" route
 
 ## Database Installation on Heroku
 ### User postgresql on Heroku
@@ -45,3 +57,16 @@ Registered users will have the ability to search for books, leave reviews and ra
 - Procfile: To  declare the process type, in this app the type is "web" and Identify thread operation
 
 - requirements.txt: Contain a list of items to be installed, use the command to install all of items `pip install -r requirements.txt`
+
+## Clone/Run app
+````
+# Clone repo
+$ git clone https://github.com/MotazBellah/cs40p1
+
+# Install all dependencies
+$ pip install -r requirements.txt
+
+# Run
+$ python application.py
+
+# Go to 127.0.0.1:5000 on your web browser.
