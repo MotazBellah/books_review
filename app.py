@@ -170,7 +170,7 @@ def book(book_id):
         # Use BeautifulSoup to parse the xml response
         soup = bs.BeautifulSoup(source, 'lxml')
         # get the description
-        description = soup.find('book').find('description')
+        description = soup.find('book').find('description').text
     except Exception as e:
         print(e)
         description = "There is no description"
@@ -179,7 +179,7 @@ def book(book_id):
     img_url = "http://covers.openlibrary.org/b/isbn/{}-L.jpg".format(book_info.isbn)
 
     return render_template('book.html', total_rate=total, user_rate=rate, rating=goodreads_rating, count=goodreads_rating_count,
-                           login_session=logged_user, comments=comments, description=description.text, isbn=book_info.isbn, year=book_info.year,
+                           login_session=logged_user, comments=comments, description=description, isbn=book_info.isbn, year=book_info.year,
                            img_url=img_url, book_title=book_info.title, book_author=book_info.author, book_id=book_id)
 
 
