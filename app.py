@@ -1,5 +1,5 @@
 import os
-from flask import Flask, session, render_template, request, redirect, url_for, jsonify
+from flask import Flask, session, render_template, request, redirect, url_for, jsonify, abort
 from flask import session as login_session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -321,7 +321,7 @@ def book_api(isbn):
                 "average_score": average_score
             })
     else:
-         return jsonify({"error": "Invalid book"}), 422
+         return abort(404)
 
 
 
